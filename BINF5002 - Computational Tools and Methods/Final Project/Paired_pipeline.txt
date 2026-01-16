@@ -1,0 +1,99 @@
+REFERENCE_ACCESSION="NG_013302.2"
+DISEASE_ACCESSION="SRR24927859"
+RESULTS_FOLDER=results
+SNPEFF_DIR=${RESULTS_FOLDER}/snpEff
+SNPEFF_DATA_DIR=${SNPEFF_DIR}/data/reference_db
+
+
+echo "Starting Pipeline..."
+
+echo "Downloading Reference Data"
+efetch -db nuccore -id NG_013302.2 -format fasta > NG_013302.2.fasta
+
+echo "Downloading Disease Data"
+prefetch $DISEASE_ACCESSION
+
+echo "Converting SRA file into FASTQ file"
+fasterq-dump $DISEASE_ACCESSION --split-files
+
+echo "Quality Control"
+
+fastqc $DISEASE_ACCESSION"_1".fastq
+fastqc $DISEASE_ACCESSION"_2".fastq
+
+echo "Cleaning Disease Seqs"
+
+fastp -i $DISEASE_ACCESSION"_1".fastq -I $DISEASE_ACCESSION"_2".fastq \
+      -o $DISEASE_ACCESSION"_1_trimmed".fastq -O $DISEASE_ACCESSION"_2_trimmed".fastq \
+      -h $DISEASE_ACCESSION"_fastp_report".html
+echo "Index FASTA file for alignment"
+bwa index $REFERENCE_ACCESSION.fasta
+
+echo "Align FASTQ file with FASTA file"
+bwa mem $REFERENCE_ACCESSION.fasta $DISEASE_ACCESSION"_1_trimmed".fastq $DISEASE_ACCESSION_2_trimmed.fastq > output.sam
+
+echo "Convert SAM file to BAM File"
+samtools view -b output.sam > output.bam
+
+echo "Sort BAM File for faster later analysis"
+samtools sort output.bam > sorted.bam
+
+echo "Index BAM file for faster later analysis"
+samtools index sorted.bam
+
+echo "Index FASTA file for faster later analysis"
+samtools faidx $REFERENCE_ACCESSION.fasta
+
+
+echo "Post Alignment Processing"
+
+echo "Validate SAM File"
+gatk ValidateSamFile -I sorted.bam -MODE SUMMARY
+
+echo "Mark Duplicates"
+gatk MarkDuplicates -I sorted.bam -O sorted_dedup.bam -M dedup_metrics.txt
+
+echo "Create Sequence Dictionary"
+gatk CreateSequenceDictionary -R $REFERENCE_ACCESSION.fasta -O $REFERENCE_ACCESSION.dict
+
+echo "Index Sorted Dedup BAM file for faster later analysis"
+samtools index sorted_dedup.bam
+
+echo "Extract Variants into VCF file"
+gatk HaplotypeCaller -R $REFERENCE_ACCESSION.fasta -I sorted_dedup.bam -O variants.vcf
+
+echo "Variant Filtering"
+gatk VariantFiltration -R $REFERENCE_ACCESSION.fasta -V variants.vcf -O filtered_variants.vcf --filter-expression "QD < 2.0 || FS > 10.0 || MQ < 40.0" --filter-name "BasicFilter"
+
+echo "Annotation"
+
+rm -r results/snpEff
+mkdir -p results/snpEff/data/reference_db
+
+echo Downloading reference GenBank file for snpEff...
+efetch -db nucleotide -id $REFERENCE_ACCESSION -format genbank > $SNPEFF_DATA_DIR/genes.gbk
+echo Downloaded GenBank file for snpEff!
+
+echo Creating custom snpEff configuration file...
+cat <<EOF > $SNPEFF_DIR/snpEff.config
+# Custom snpEff config for reference_db
+reference_db.genome : reference_db
+reference_db.fa : $(readlink -f  $REFERENCE_ACCESSION)
+reference_db.genbank : $(readlink -f $SNPEFF_DATA_DIR/genes.gbk)
+EOF
+
+echo Building snpEff database...
+snpEff build -c $SNPEFF_DIR/snpEff.config -genbank -v -noCheckProtein reference_db 
+echo Built snpEff database!
+
+echo Exporting snpEff database...
+snpEff dump -c $SNPEFF_DIR/snpEff.config reference_db > $SNPEFF_DIR/snpEff_reference_db.txt 
+echo Exported snpEff database!
+
+echo Annotating variants with snpEff...
+snpEff -c $SNPEFF_DIR/snpEff.config -stats $SNPEFF_DIR/snpEff.html reference_db filtered_variants.vcf > annotated_variants.vcf
+echo Annotated variants with snpEff!
+
+echo "Pipeline Completed Successfully!"
+ 
+ 

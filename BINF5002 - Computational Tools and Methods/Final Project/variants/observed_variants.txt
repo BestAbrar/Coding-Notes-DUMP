@@ -1,0 +1,169 @@
+{'CTNNB1': Empty DataFrame
+Columns: [gnomAD ID, Chromosome, Position, rsIDs, Reference, Alternate, Source, Filters - exomes, Filters - genomes, Transcript, HGVS Consequence, Protein Consequence, Transcript Consequence, VEP Annotation, ClinVar Germline Classification, ClinVar Variation ID, Flags, Allele Count, Allele Number, Allele Frequency, Homozygote Count, Hemizygote Count, Filters - joint, GroupMax FAF group, GroupMax FAF frequency, cadd, revel_max, spliceai_ds_max, pangolin_largest_ds, phylop, sift_max, polyphen_max, Allele Count African/African American, Allele Number African/African American, Homozygote Count African/African American, Hemizygote Count African/African American, Allele Count Admixed American, Allele Number Admixed American, Homozygote Count Admixed American, Hemizygote Count Admixed American, Allele Count Ashkenazi Jewish, Allele Number Ashkenazi Jewish, Homozygote Count Ashkenazi Jewish, Hemizygote Count Ashkenazi Jewish, Allele Count East Asian, Allele Number East Asian, Homozygote Count East Asian, Hemizygote Count East Asian, Allele Count European (Finnish), Allele Number European (Finnish), Homozygote Count European (Finnish), Hemizygote Count European (Finnish), Allele Count Middle Eastern, Allele Number Middle Eastern, Homozygote Count Middle Eastern, Hemizygote Count Middle Eastern, Allele Count European (non-Finnish), Allele Number European (non-Finnish), Homozygote Count European (non-Finnish), Hemizygote Count European (non-Finnish), Allele Count Amish, Allele Number Amish, Homozygote Count Amish, Hemizygote Count Amish, Allele Count South Asian, Allele Number South Asian, Homozygote Count South Asian, Hemizygote Count South Asian, Allele Count Remaining, Allele Number Remaining, Homozygote Count Remaining, Hemizygote Count Remaining]
+Index: [], 'KCNA1': Empty DataFrame
+Columns: [gnomAD ID, Chromosome, Position, rsIDs, Reference, Alternate, Source, Filters - exomes, Filters - genomes, Transcript, HGVS Consequence, Protein Consequence, Transcript Consequence, VEP Annotation, ClinVar Germline Classification, ClinVar Variation ID, Flags, Allele Count, Allele Number, Allele Frequency, Homozygote Count, Hemizygote Count, Filters - joint, GroupMax FAF group, GroupMax FAF frequency, cadd, revel_max, spliceai_ds_max, pangolin_largest_ds, phylop, sift_max, polyphen_max, Allele Count African/African American, Allele Number African/African American, Homozygote Count African/African American, Hemizygote Count African/African American, Allele Count Admixed American, Allele Number Admixed American, Homozygote Count Admixed American, Hemizygote Count Admixed American, Allele Count Ashkenazi Jewish, Allele Number Ashkenazi Jewish, Homozygote Count Ashkenazi Jewish, Hemizygote Count Ashkenazi Jewish, Allele Count East Asian, Allele Number East Asian, Homozygote Count East Asian, Hemizygote Count East Asian, Allele Count European (Finnish), Allele Number European (Finnish), Homozygote Count European (Finnish), Hemizygote Count European (Finnish), Allele Count Middle Eastern, Allele Number Middle Eastern, Homozygote Count Middle Eastern, Hemizygote Count Middle Eastern, Allele Count European (non-Finnish), Allele Number European (non-Finnish), Homozygote Count European (non-Finnish), Hemizygote Count European (non-Finnish), Allele Count Amish, Allele Number Amish, Homozygote Count Amish, Hemizygote Count Amish, Allele Count South Asian, Allele Number South Asian, Homozygote Count South Asian, Hemizygote Count South Asian, Allele Count Remaining, Allele Number Remaining, Homozygote Count Remaining, Hemizygote Count Remaining]
+Index: [], 'KMT2D': Empty DataFrame
+Columns: [gnomAD ID, Chromosome, Position, rsIDs, Reference, Alternate, Source, Filters - exomes, Filters - genomes, Transcript, HGVS Consequence, Protein Consequence, Transcript Consequence, VEP Annotation, ClinVar Germline Classification, ClinVar Variation ID, Flags, Allele Count, Allele Number, Allele Frequency, Homozygote Count, Hemizygote Count, Filters - joint, GroupMax FAF group, GroupMax FAF frequency, cadd, revel_max, spliceai_ds_max, pangolin_largest_ds, phylop, sift_max, polyphen_max, Allele Count African/African American, Allele Number African/African American, Homozygote Count African/African American, Hemizygote Count African/African American, Allele Count Admixed American, Allele Number Admixed American, Homozygote Count Admixed American, Hemizygote Count Admixed American, Allele Count Ashkenazi Jewish, Allele Number Ashkenazi Jewish, Homozygote Count Ashkenazi Jewish, Hemizygote Count Ashkenazi Jewish, Allele Count East Asian, Allele Number East Asian, Homozygote Count East Asian, Hemizygote Count East Asian, Allele Count European (Finnish), Allele Number European (Finnish), Homozygote Count European (Finnish), Hemizygote Count European (Finnish), Allele Count Middle Eastern, Allele Number Middle Eastern, Homozygote Count Middle Eastern, Hemizygote Count Middle Eastern, Allele Count European (non-Finnish), Allele Number European (non-Finnish), Homozygote Count European (non-Finnish), Hemizygote Count European (non-Finnish), Allele Count Amish, Allele Number Amish, Homozygote Count Amish, Hemizygote Count Amish, Allele Count South Asian, Allele Number South Asian, Homozygote Count South Asian, Hemizygote Count South Asian, Allele Count Remaining, Allele Number Remaining, Homozygote Count Remaining, Hemizygote Count Remaining]
+Index: [], 'MYCN': Empty DataFrame
+Columns: [gnomAD ID, Chromosome, Position, rsIDs, Reference, Alternate, Source, Filters - exomes, Filters - genomes, Transcript, HGVS Consequence, Protein Consequence, Transcript Consequence, VEP Annotation, ClinVar Germline Classification, ClinVar Variation ID, Flags, Allele Count, Allele Number, Allele Frequency, Homozygote Count, Hemizygote Count, Filters - joint, GroupMax FAF group, GroupMax FAF frequency, cadd, revel_max, spliceai_ds_max, pangolin_largest_ds, phylop, sift_max, polyphen_max, Allele Count African/African American, Allele Number African/African American, Homozygote Count African/African American, Hemizygote Count African/African American, Allele Count Admixed American, Allele Number Admixed American, Homozygote Count Admixed American, Hemizygote Count Admixed American, Allele Count Ashkenazi Jewish, Allele Number Ashkenazi Jewish, Homozygote Count Ashkenazi Jewish, Hemizygote Count Ashkenazi Jewish, Allele Count East Asian, Allele Number East Asian, Homozygote Count East Asian, Hemizygote Count East Asian, Allele Count European (Finnish), Allele Number European (Finnish), Homozygote Count European (Finnish), Hemizygote Count European (Finnish), Allele Count Middle Eastern, Allele Number Middle Eastern, Homozygote Count Middle Eastern, Hemizygote Count Middle Eastern, Allele Count European (non-Finnish), Allele Number European (non-Finnish), Homozygote Count European (non-Finnish), Hemizygote Count European (non-Finnish), Allele Count Amish, Allele Number Amish, Homozygote Count Amish, Hemizygote Count Amish, Allele Count South Asian, Allele Number South Asian, Homozygote Count South Asian, Hemizygote Count South Asian, Allele Count Remaining, Allele Number Remaining, Homozygote Count Remaining, Hemizygote Count Remaining]
+Index: [], 'PRDM6': Empty DataFrame
+Columns: [gnomAD ID, Chromosome, Position, rsIDs, Reference, Alternate, Source, Filters - exomes, Filters - genomes, Transcript, HGVS Consequence, Protein Consequence, Transcript Consequence, VEP Annotation, ClinVar Germline Classification, ClinVar Variation ID, Flags, Allele Count, Allele Number, Allele Frequency, Homozygote Count, Hemizygote Count, Filters - joint, GroupMax FAF group, GroupMax FAF frequency, cadd, revel_max, spliceai_ds_max, pangolin_largest_ds, phylop, sift_max, polyphen_max, Allele Count African/African American, Allele Number African/African American, Homozygote Count African/African American, Hemizygote Count African/African American, Allele Count Admixed American, Allele Number Admixed American, Homozygote Count Admixed American, Hemizygote Count Admixed American, Allele Count Ashkenazi Jewish, Allele Number Ashkenazi Jewish, Homozygote Count Ashkenazi Jewish, Hemizygote Count Ashkenazi Jewish, Allele Count East Asian, Allele Number East Asian, Homozygote Count East Asian, Hemizygote Count East Asian, Allele Count European (Finnish), Allele Number European (Finnish), Homozygote Count European (Finnish), Hemizygote Count European (Finnish), Allele Count Middle Eastern, Allele Number Middle Eastern, Homozygote Count Middle Eastern, Hemizygote Count Middle Eastern, Allele Count European (non-Finnish), Allele Number European (non-Finnish), Homozygote Count European (non-Finnish), Hemizygote Count European (non-Finnish), Allele Count Amish, Allele Number Amish, Homozygote Count Amish, Hemizygote Count Amish, Allele Count South Asian, Allele Number South Asian, Homozygote Count South Asian, Hemizygote Count South Asian, Allele Count Remaining, Allele Number Remaining, Homozygote Count Remaining, Hemizygote Count Remaining]
+Index: [], 'TP53':            gnomAD ID  Chromosome  Position       rsIDs Reference Alternate  \
+1003  17-7674109-G-A          17   7674109  rs12947788         G         A   
+1194  17-7674797-T-C          17   7674797   rs1625895         T         C   
+1923  17-7676483-G-C          17   7676483   rs1642785         G         C   
+
+                            Source Filters - exomes Filters - genomes  \
+1003  gnomAD Exomes,gnomAD Genomes             PASS              PASS   
+1194  gnomAD Exomes,gnomAD Genomes             PASS              PASS   
+1923  gnomAD Exomes,gnomAD Genomes             PASS              PASS   
+
+             Transcript HGVS Consequence Protein Consequence  \
+1003  ENST00000269305.9      c.782+72C>T                 NaN   
+1194  ENST00000269305.9      c.672+62A>G                 NaN   
+1923  ENST00000610292.4        c.-123C>G                 NaN   
+
+     Transcript Consequence       VEP Annotation  \
+1003            c.782+72C>T       intron_variant   
+1194            c.672+62A>G       intron_variant   
+1923              c.-123C>G  5_prime_UTR_variant   
+
+     ClinVar Germline Classification  ClinVar Variation ID Flags  \
+1003                          Benign             1243351.0   NaN   
+1194                          Benign              256603.0   NaN   
+1923                          Benign              137691.0   NaN   
+
+      Allele Count  Allele Number  Allele Frequency  Homozygote Count  \
+1003        115037        1155766          0.099533              7796   
+1194       1233931        1428846          0.863586            534669   
+1923       1120419        1591856          0.703844            397543   
+
+      Hemizygote Count Filters - joint GroupMax FAF group  \
+1003                 0            PASS                eas   
+1194                 0            PASS                eas   
+1923                 0            PASS                nfe   
+
+      GroupMax FAF frequency  cadd  revel_max  spliceai_ds_max  \
+1003                0.299376  7.50        NaN              0.0   
+1194                0.963848  3.31        NaN              0.0   
+1923                0.733590  4.10        NaN              0.0   
+
+      pangolin_largest_ds  phylop  sift_max  polyphen_max  \
+1003                 0.00   0.220       NaN           NaN   
+1194                 0.01  -1.160       NaN           NaN   
+1923                -0.01  -0.941       NaN           NaN   
+
+      Allele Count African/African American  \
+1003                                   7881   
+1194                                  50367   
+1923                                  38040   
+
+      Allele Number African/African American  \
+1003                                   65966   
+1194                                   70808   
+1923                                   74642   
+
+      Homozygote Count African/African American  \
+1003                                        473   
+1194                                      17888   
+1923                                       9689   
+
+      Hemizygote Count African/African American  \
+1003                                          0   
+1194                                          0   
+1923                                          0   
+
+      Allele Count Admixed American  Allele Number Admixed American  \
+1003                           8046                           57680   
+1194                          51666                           56702   
+1923                          42898                           59852   
+
+      Homozygote Count Admixed American  Hemizygote Count Admixed American  \
+1003                                600                                  0   
+1194                              23594                                  0   
+1923                              15360                                  0   
+
+      Allele Count Ashkenazi Jewish  Allele Number Ashkenazi Jewish  \
+1003                           1851                           26636   
+1194                          23537                           28172   
+1923                          21001                           29482   
+
+      Homozygote Count Ashkenazi Jewish  Hemizygote Count Ashkenazi Jewish  \
+1003                                 76                                  0   
+1194                               9822                                  0   
+1923                               7460                                  0   
+
+      Allele Count East Asian  Allele Number East Asian  \
+1003                    12949                     42630   
+1194                    41756                     42974   
+1923                    26883                     44740   
+
+      Homozygote Count East Asian  Hemizygote Count East Asian  \
+1003                         2017                            0   
+1194                        20301                            0   
+1923                         8080                            0   
+
+      Allele Count European (Finnish)  Allele Number European (Finnish)  \
+1003                             3398                             63194   
+1194                            55845                             62900   
+1923                            45996                             63586   
+
+      Homozygote Count European (Finnish)  \
+1003                                  102   
+1194                                24802   
+1923                                16687   
+
+      Hemizygote Count European (Finnish)  Allele Count Middle Eastern  \
+1003                                    0                          295   
+1194                                    0                         3979   
+1923                                    0                         3641   
+
+      Allele Number Middle Eastern  Homozygote Count Middle Eastern  \
+1003                          4476                               13   
+1194                          5708                             1419   
+1923                          6022                             1132   
+
+      Hemizygote Count Middle Eastern  Allele Count European (non-Finnish)  \
+1003                                0                                59703   
+1194                                0                               889583   
+1923                                0                               852438   
+
+      Allele Number European (non-Finnish)  \
+1003                                765552   
+1194                               1018472   
+1923                               1159938   
+
+      Homozygote Count European (non-Finnish)  \
+1003                                     2450   
+1194                                   388539   
+1923                                   312111   
+
+      Hemizygote Count European (non-Finnish)  Allele Count Amish  \
+1003                                        0                  51   
+1194                                        0                 759   
+1923                                        0                 609   
+
+      Allele Number Amish  Homozygote Count Amish  Hemizygote Count Amish  \
+1003                  912                       0                       0   
+1194                  912                     317                       0   
+1923                  910                     206                       0   
+
+      Allele Count South Asian  Allele Number South Asian  \
+1003                     16164                      81298   
+1194                     68041                      85796   
+1923                     45877                      90820   
+
+      Homozygote Count South Asian  Hemizygote Count South Asian  \
+1003                          1800                             0   
+1194                         27144                             0   
+1923                         11813                             0   
+
+      Allele Count Remaining  Allele Number Remaining  \
+1003                    4699                    47422   
+1194                   48398                    56402   
+1923                   43036                    61864   
+
+      Homozygote Count Remaining  Hemizygote Count Remaining  
+1003                         265                           0  
+1194                       20843                           0  
+1923                       15005                           0  }

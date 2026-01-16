@@ -1,0 +1,54 @@
+{
+    "genes": [
+        {
+            "gene_id": "BRCA1",
+            "name": "Breast Cancer 1",
+            "chromosome": "17",
+            "start_position": 43044295,
+            "end_position": 43125482,
+            "strand": "+",
+            "function": "DNA repair",
+            "associated_diseases": ["Breast cancer", "Ovarian cancer"]
+        },
+        {
+            "gene_id": "TP53",
+            "name": "Tumor Protein P53",
+            "chromosome": "17",
+            "start_position": 7668402,
+            "end_position": 7687550,
+            "strand": "+",
+            "function": "Tumor suppression",
+            "associated_diseases": ["Li-Fraumeni syndrome", "Various cancers"]
+        },
+        {
+            "gene_id": "EGFR",
+            "name": "Epidermal Growth Factor Receptor",
+            "chromosome": "7",
+            "start_position": 55086722,
+            "end_position": 55274600,
+            "strand": "+",
+            "function": "Cell growth and differentiation",
+            "associated_diseases": ["Lung cancer", "Glioblastoma"]
+        },
+        {
+            "gene_id": "CFTR",
+            "name": "Cystic Fibrosis Transmembrane Conductance Regulator",
+            "chromosome": "7",
+            "start_position": 117559593,
+            "end_position": 117664579,
+            "strand": "-",
+            "function": "Ion transport",
+            "associated_diseases": ["Cystic fibrosis"]
+        },
+        {
+            "gene_id": "APOE",
+            "name": "Apolipoprotein E",
+            "chromosome": "19",
+            "start_position": 44905754,
+            "end_position": 44909395,
+            "strand": "+",
+            "function": "Lipid metabolism",
+            "associated_diseases": ["Alzheimer's disease", "Cardiovascular disease"]
+        }
+    ]
+}

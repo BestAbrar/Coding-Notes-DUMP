@@ -1,0 +1,12 @@
+<planets>
+    <planet>
+        <name>Mars</name>
+        <mass>6.39E23</mass>
+        <discovery>Unknown</discovery>
+    </planet>
+    <planet>
+        <name>Jupiter</name>
+        <mass>1.898E27</mass>
+        <discovery>Unknown</discovery>
+    </planet>
+</planets>

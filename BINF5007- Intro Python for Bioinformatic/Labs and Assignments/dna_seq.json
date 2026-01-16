@@ -1,0 +1,104 @@
+{
+    "dna_sequences": [
+        {
+            "sequence_id": "seq1",
+            "description": "Sample DNA sequence 1",
+            "sequence": "ATGCGTACGTAGCTAGCTAGCTAGCTA"
+        },
+        {
+            "sequence_id": "seq2",
+            "description": "Sample DNA sequence 2",
+            "sequence": "CGTAGCTAGCTAGCTAGCTAGCTAGCT"
+        },
+        {
+            "sequence_id": "seq3",
+            "description": "Sample DNA sequence 3",
+            "sequence": "GCTAGCTAGCTAGCTAGCTAGCTAGCT"
+        },
+        {
+            "sequence_id": "seq4",
+            "description": "Sample DNA sequence 4",
+            "sequence": "TAGCTAGCTAGCTAGCTAGCTAGCTAG"
+        },
+        {
+            "sequence_id": "seq5",
+            "description": "Sample DNA sequence 5",
+            "sequence": "AGCTAGCTAGCTAGCTAGCTAGCTAGC"
+        },
+        {
+            "sequence_id": "seq6",
+            "description": "Sample DNA sequence 6",
+            "sequence": "CTAGCTAGCTAGCTAGCTAGCTAGCTA"
+        },
+        {
+            "sequence_id": "seq7",
+            "description": "Sample DNA sequence 7",
+            "sequence": "TGCATGCATGCATGCATGCATGCATGC"
+        },
+        {
+            "sequence_id": "seq8",
+            "description": "Sample DNA sequence 8",
+            "sequence": "ATGCATGCATGCATGCATGCATGCATG"
+        },
+        {
+            "sequence_id": "seq9",
+            "description": "Sample DNA sequence 9",
+            "sequence": "GCATGCATGCATGCATGCATGCATGCA"
+        },
+        {
+            "sequence_id": "seq10",
+            "description": "Sample DNA sequence 10",
+            "sequence": "CATGCATGCATGCATGCATGCATGCAT"
+        },
+        {
+            "sequence_id": "seq11",
+            "description": "Sample DNA sequence 11",
+            "sequence": "TGCTGCTGCTGCTGCTGCTGCTGCTGC"
+        },
+        {
+            "sequence_id": "seq12",
+            "description": "Sample DNA sequence 12",
+            "sequence": "GCTGCTGCTGCTGCTGCTGCTGCTGCT"
+        },
+        {
+            "sequence_id": "seq13",
+            "description": "Sample DNA sequence 13",
+            "sequence": "CTGCTGCTGCTGCTGCTGCTGCTGCTG"
+        },
+        {
+            "sequence_id": "seq14",
+            "description": "Sample DNA sequence 14",
+            "sequence": "TGCTGCTGCTGCTGCTGCTGCTGCTGC"
+        },
+        {
+            "sequence_id": "seq15",
+            "description": "Sample DNA sequence 15",
+            "sequence": "GCTGCTGCTGCTGCTGCTGCTGCTGCT"
+        },
+        {
+            "sequence_id": "seq16",
+            "description": "Sample DNA sequence 16",
+            "sequence": "CTGCTGCTGCTGCTGCTGCTGCTGCTG"
+        },
+        {
+            "sequence_id": "seq17",
+            "description": "Sample DNA sequence 17",
+            "sequence": "TGCTGCTGCTGCTGCTGCTGCTGCTGC"
+        },
+        {
+            "sequence_id": "seq18",
+            "description": "Sample DNA sequence 18",
+            "sequence": "GCTGCTGCTGCTGCTGCTGCTGCTGCT"
+        },
+        {
+            "sequence_id": "seq19",
+            "description": "Sample DNA sequence 19",
+            "sequence": "CTGCTGCTGCTGCTGCTGCTGCTGCTG"
+        },
+        {
+            "sequence_id": "seq20",
+            "description": "Sample DNA sequence 20",
+            "sequence": "TGCTGCTGCTGCTGCTGCTGCTGCTGC"
+        }
+    ]
+}

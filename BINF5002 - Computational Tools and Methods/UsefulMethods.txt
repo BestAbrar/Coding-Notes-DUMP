@@ -1,0 +1,17 @@
+docker exec -it <container_ID> bash
+apt update
+apt install tree
+curl -fsSL https://code-server.dev/install.sh | sh
+sudo code-server --bind-addr 0.0.0.0:80 --auth none
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash ~/Miniconda3-latest-Linux-x86_64.sh
+bash: /root/Miniconda3-latest-Linux-x86_64.sh
+Miniconda3-latest-Linux-x86_64.sh
+conda install bioconda::entrez-direct
+conda install sra-tools -y
+entrez-direct
+conda install bioconda::entrez-direct
+conda install bioconda::sra-tools
+conda uninstall bioconda::entrez-direct
+conda uninstall bioconda::sra-tools
+conda config --add channels bioconda

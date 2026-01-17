@@ -1,0 +1,563 @@
+---
+title: "Week 3 Module 2 - Data Wranging (2/2)"
+author: "Vicki Z."
+date: "January 21"
+output: pdf_document
+---
+
+* knit assignments to PDF
+* use comments - it will really help you!
+* assume every question following builds on the previous question. E.g., you removed NAs, now use the dataframe without NAs, unless specified otherwise.
+
+## Last class: Data wrangling with base R packages 
+
+Data wrangling is the process of reshaping raw data into a format suitable for analysis. This can involve removing rows with missing data or changing how the data is stored within the table. Functions often expect data in a certain orientation and this can be different from how data is collected. 
+
+```{r}
+library(tidyverse)
+library(here)
+```
+
+
+### Import data 
+
+We're going to continue to work with the abalone dataset. As this is a new worksheet, the `abalone` does not exist yet and we will need to read in the dataset and create the dataset again. Here's a reminder of the attribute information. Please refer to the week 2 module for more information about this dataset. 
+
+**Attribute Information:**
+
+Given is the attribute name, attribute type, the measurement unit and a brief description. The number of rings is the value to predict: either as a continuous value or as a classification problem.
+
+*Name / Data Type / Measurement Unit / Description*
+
+- Sex / nominal / -- / M, F, and I (infant)
+- Length / continuous / mm / Longest shell measurement
+- Diameter / continuous / mm / perpendicular to length
+- Height / continuous / mm / with meat in shell
+- Whole weight / continuous / grams / whole abalone
+- Shucked weight / continuous / grams / weight of meat
+- Viscera weight / continuous / grams / gut weight (after bleeding)
+- Shell weight / continuous / grams / after being dried
+- Rings / integer / -- / +1.5 gives the age in years 
+
+### Exercise 
+
+Use the `read.csv()` function to store the data from the `abalone.csv` file into an object called `abalone`. In addition to setting the functions `header` parameter to true, trigger a second parameter called `stringsAsFactors` to automatically in the columns with words as factors rather than characters. Check you work by using the `head()` and `summary()` functions. 
+
+Hint: You can always refer to previous workflows or bring up the help page with `?read.csv()` if you would like a reminder for how the function operates. You may want to double check what the default setting for `stringsAsFactors` is. 
+
+```{r}
+#library(here)
+library(tidyverse)
+setwd("C:/Users/Delwar/Desktop/Humber/BINF5003- Data Mining, Modeling, and Biostatistcs")
+abalone <- read.csv("abalone.csv",
+                    header = TRUE, stringsAsFactors = TRUE)
+# load your .csv file based on the location in your folder
+```
+
+```{r}
+# checking out your data
+dim(abalone)
+head(abalone) # print the first 6 rows
+tail(abalone) # print the last 6 rows
+```
+
+## Starting with Data Wrangling
+
+Notice for the sex of the observations, the summary is returning that there are characters in this column but not much else.
+
+```{r}
+class(abalone$Sex)
+summary(abalone$Sex) # this is a factor (complex character data type)
+
+# data types reminder
+x <- "apples" # character
+fruits <- c("apples", "oranges", "bananas", "bananas")
+fruits <- as.factor(fruits)
+x <- 5 # numeric
+x <- factor("apples") # character with value/position (complex)
+x <- TRUE # logical
+class(abalone) # dataframe
+
+# add new column called `sex` as a character
+abalone$sex <- as.character(abalone$Sex)
+summary(abalone$sex) # this is a character
+```
+
+Now that we understand factors, let's overwrite the column in the original dataset. **Remember, there is no undo button in programming. Double check your work before you overwrite objects**
+
+```{r}
+
+```
+
+## Revisiting the R environment
+
+Let's take a moment to revisit the Rstudio interface and the environment panel. 
+
+We've worked with a few objects at this point. The environment panel can give us an overview of the objects in the environment and allow us to preview data frames. 
+
+If you would like to remove any objects, use `rm()` to remove an object from the environment
+
+```{r}
+rm(fruits)
+x <- 5
+x <- 50
+rm(x)
+remove(x) # same thing
+
+# remove(y)
+```
+
+The "object not found" error is a common one. In case you get this, you can refer to this Environment tab to double check if it exists. Some common reasons this error message is triggered include: 
+
+- object does not exist in the environment
+- spelling (e.g., abalone versus abolone)
+
+## Data Wrangling 
+
+Most of the raw data we work with starts off as what the computer considers messy. Perhaps there are some observations with incomplete data (columns are missing data) or there are multiple observations stored in each row (imagine a table with countries in the rows, and a column for life expectancy in 1990 in one column and life expectancy in 2010 in the adjacent column). 
+
+Data wrangling is the (long) process of data cleaning and reshaping the raw data into a more usable form. 
+
+In this section, we are going to get comfortable subseting the data and re-shaping dataframes. We'll start by reminding ourselves how our dataset looks: 
+
+```{r}
+dim(abalone)
+ncol(abalone)
+nrow(abalone)
+summary(abalone)
+
+abalone[4, "Diameter"]
+abalone[abalone$Sex == "M",] #index based on condition
+# conditionals test trueness in a vector/data frame
+
+```
+
+If we wanted to take a look at the summary statistics independently for infant versus mature, we can create multiple objects by subseting the original one. 
+
+Remember square brackets are indexing.
+
+```{r}
+abalone_infants <- abalone[abalone$Sex == "I", ]
+summary(abalone_infants)
+```
+
+We can select for multiple values as well. 
+
+```{r}
+abalone_mature <- abalone[abalone$Sex == c("F", "M"), ]
+summary(abalone_mature)
+```
+
+### Exercise 
+
+Create a new object called `abalone_small` with only abalone with `Whole.weight` less than 1. Include only the columns `Sex`, `Length`, `Diameter`, and `Whole.weight`. 
+
+You can do this in one line or multiple lines, whichever you are most comfortable with! Take your time and check your work along the way using the `summary()` function. 
+
+```{r}
+
+abalone_small <- abalone[abalone$Whole.weight < 1, c("Sex", "Length", "Diameter", "Whole.weight")]
+
+summary(abalone_small)
+
+# == logical vector aka TRUE or FALSE
+# = similar to <- 
+```
+
+
+
+## Writing Functions
+
+In this class, you will be working a lot with functions, especially those that someone else has already written. When you type sum, c(), or mean(), you are using a function that has been made previously and built into R. To remove some of the magic around these functions, we will go through how to make a basic function of our own. Let’s start with a simple example where we add two numbers together.
+
+```{r}
+add_two_numbers <- function(x, y){
+  print(x + y)
+}
+
+add_two_numbers(99, 101)
+```
+
+
+### Exercise
+
+Write a function called `diff_function` that subtracts the largest `Diameter` value from the smallest value in our `Diameter`.
+
+```{r}
+diff_function <- function(x){
+  return (max(x)-min(x))
+}
+diameterDiff = diff_function(abalone$Diameter)
+print(diameterDiff)
+```
+
+
+## Adding new columns of data 
+
+New columns can also be created if you wanted to add more information to the dataset 
+
+```{r}
+# add a new column called `maturity` where every row says "mature"
+abalone$maturity <- "mature"
+abalone$maturity
+
+# for rows where `Sex` is `I`, change the `maturity` column to say "infant"
+abalone[abalone$Sex == "I", "maturity"] <- "infant"
+abalone$maturity
+
+# use `table()` to give a table-format of a column
+table(abalone$maturity)
+```
+
+```{r}
+abalone$percent.weight <- abalone$Shucked.weight/abalone$Shell.weight
+
+summary(abalone$percent.weight)
+
+head(abalone)
+
+# delete a column
+abalone_original <- abalone[ , 1:9]
+```
+
+### Exercise
+
+1. Create a data frame named my_df with three columns: `name`, `score`, and `var`. 
+```{r}
+name <- c("a", "b", "c")
+score <- c(1, 2, 3)
+var <- c(7:9)
+
+my_df <- data.frame(name, score, var)
+head(my_df)
+```
+
+a) Set custom row names for the data frame and call them `row1`, `row2`, and `row3`
+
+```{r}
+rownames(my_df) <- c("row1", "row2", "row3")
+rownames(my_df)
+print(my_df)
+```
+
+b) Add a new column named `student` with values `3`, `4`, and `5`
+
+```{r}
+my_df$student <- c(3:5)
+```
+
+c) Add another new column named `new_col` with values `aa`, `cc`, and `VV`. How can you access/check this new data column?
+
+```{r}
+my_df$new_col <- c("aa", "cc", "W")
+
+head(my_df)
+summary(my_df)
+my_df$new_col
+```
+
+
+
+## Exporting data 
+
+Remember that our `abalone` object was created from the `abalone.csv` file that we have in the same folder. When we used the `read.csv()` function to import the data into R, the original data table did not change and all of the reshaping and calculations did not affect the original data. This is good - we generally do not want to modify the raw data. When we are running the code again, we want to start from the same place. 
+
+However, at the end of an analysis, you may want to export some data table, statistics, or images to include in a report or thesis. 
+
+Complementary to how we read in the data, we can use a related function called `write.csv()` to write the values stored in an object into a new .csv file.
+
+If you save to the same file name as the one you imported, you will irreversibly overwrite the original raw data. 
+
+```{r}
+write.csv(abalone, here("abalone_week2edits.csv"))
+```
+
+If you check the folder where this notebook is kept, the file name will be there 
+
+## Documenting session info
+
+As an overview of our environment, we can also use the `sessionInfo()` command. This is a good practice to have at the end of your code to document which packages you used and what version they were. 
+
+Notice that we have some base packages active even though we did not explicitly call for them.
+
+```{r}
+sessionInfo()
+```
+
+
+
+## Practice Problems
+
+We will be working with a dataset quantifying water quality that is publicly available at: https://www.kaggle.com/datasets/adityakadiwal/water-potability?resource=download
+
+
+Here is some description of the data: 
+
+Access to safe drinking-water is essential to health, a basic human right and a component of effective policy for health protection. This is important as a health and development issue at a national, regional and local level. In some regions, it has been shown that investments in water supply and sanitation can yield a net economic benefit, since the reductions in adverse health effects and health care costs outweigh the costs of undertaking the interventions.
+
+The water_potability.csv file contains water quality metrics for 3276 different water bodies. More information about each of the columns can be found in the link above
+
+pH value
+Hardness
+Solids (Total dissolved solids - TDS)
+Chloramines
+Sulfate
+Conductivity
+Organic_carbon
+Trihalomethanes
+Turbidity
+Potability
+
+Insert a code chunk underneath each step to carry out the instruction. 
+
+1. Read in the "water_potability.csv" data into an object called `data`. Check the object you created by printing out the first 10 rows and applying the summary function.
+
+```{r}
+data <- read.csv("../3_csv/water_potability.csv", header = T)
+
+head(data, n=10)
+data[c(1:10),]
+
+summary(data)
+```
+
+
+2. Notice that the pH column contains a couple hundred NA values. NA are special values in R (like how "pi" is preset to a value of 3.14159...) to indicate that there is missing data, or it is not available. There are also some NAs in the Sulfate and Trihalomethanes columns. 
+
+Create new object called water_df that only contains complete observations. 
+
+Hint: take a look at the function called `na.omit()`. In most cases, someone's already done what you've wanted to do so there may already be code or functions that you can adapt and use!
+
+
+```{r}
+water_df <- na.omit(data)
+summary(water_df)
+```
+
+
+3. The Potability column has two possible values: 1 means Potable and 0 means Not potable.
+
+It is read in by default as a character vector. Convert this column to a factor. 
+
+```{r}
+water_df$Potability <- as.factor(water_df$Potability)
+```
+
+
+4. WHO has recommended maximum permissible limit of pH in drinking water from 6.5 to 8.5. 
+
+Create a new column within the `water_df` object called `ph_category` in which: 
+
+- Observations with a pH less than 6.5 have a value of `acidic` in the `ph_category`
+- Observations with a pH between 6.5 - 8.5 have a value of `permissible` in the `ph_category`
+- Observations with a pH greater than 8.5 have a value of `basic` in the `ph_category`
+
+There are multiple ways to do this, give it a go! You can't break the object - if you ever feel like you need a reset, you can always repeat step 1 to read in the object again. 
+
+Use `table()` or `summary()` to check the values in the `ph_category` column
+
+```{r}
+water_df$ph_category <- "permissible"
+
+water_df$ph_category[water_df$ph < 6.5] <- "acidic"
+
+water_df$ph_category[water_df$ph > 8.5] <- "basic"
+
+# water_df$ph_category[water_df$ph < 8.5 & water_df$ph > 6.5] <- "permissible"
+
+table(water_df$ph_category)
+summary(water_df)
+```
+
+## Tidyverse - subset rows or columns
+
+Tidyverse is a collection of packages, or an "umbrella-package" the installs `tidyr`, `dplyr`, `ggplot2`, and several other related packages for tidying up your data. These packages are designed to take you through the steps of working with you   r data from import through to communication. There are more tidyverse packages that we can cover in one week - the goals is to get familiar with a few and be explore other packages as the need arises. 
+
+This quick article by the authors of the Tidyverse packages explains their design process: https://cran.r-project.org/web/packages/tidyverse/vignettes/paper.html
+
+Keep in mind that `tidyverse` creates their own rules for R and their functions work well with their own functions, but may not translate to work well with other packages build by different developers. For example, the core developer strongly believes that rownames are not useful and all the information should be stored in columns within the table so converting your data frame to their object variation called tibbles will automatically remove rownames without warnings. 
+
+```{r}
+library(tidyverse)
+library(here)
+abalone <- read.csv(here("3_csv/abalone.csv"), stringsAsFactors = TRUE, header = TRUE)
+```
+
+Rather than using square brackets to subset columns, we can `select()` the rows that we want 
+```{r}
+# must indicate dataframe object as the first argument
+select(data = abalone, Length, Diameter, Whole.weight)
+
+select(abalone, Length, Diameter, Whole.weight)
+
+# use select to remove columns
+select(abalone, -Length, -Diameter)
+```
+
+We can use a similar function to `filter()` for the rows that we want 
+```{r}
+# filter by a factor
+filter(abalone, Sex == "I")
+
+# filter by a numeric
+filter(abalone, Whole.weight < 0.5 & Whole.weight > 0.2)
+```
+
+
+Functions within the tidyverse universe do not require quotations around column names - this is unique to tidyverse packages and does not translate to other applications! 
+
+### Exercise 
+
+R allows the same task to be achieved using multiple methods. This redundancy is designed to allow you flexibility when writing your code. However, it can be confusing at times when it it can feel like you are learning the same thing multiple times. Let's take a moment to review the similarities we see. 
+
+Tidyverse's functions have overlapping functionality with base R indexing using square brackets `[]`. Here is some code we wrote last week: 
+
+```{r}
+abalone_rowSub <- abalone[abalone$Whole.weight <1,]
+abalone_colSub <- abalone[, c("Sex", "Length", "Diameter", "Whole.weight")]
+```
+
+Use the tidyverse functions select() and filter() to achieve the same subsets and save the results into `abalone_rowTidy` and `abalone_colTidy` respectively. How can you check that `abalone_rowSub` and `abalone_rowTidy` contain the same values? What are some advantages to writing your code in this format? Which method do you prefer? 
+
+```{r}
+abalone_rowTidy <- filter(abalone, Whole.weight < 1) # this is the same thing as abalone_rowSub
+
+abalone_colTidy <- select(abalone, Sex, Length, Diameter, Whole.weight)
+
+table(abalone_rowSub == abalone_rowTidy)
+table(abalone_colSub == abalone_colTidy)
+```
+
+## Tidyverse - pipe
+
+Another unique aspect of tidyverse is that their commands can be chained together using the pipe `%>%`. This cumbersome chain of characters can be inserted with the shortcut ctrl/cmd + shift + M. 
+
+%>% %>% %>% %>% %>% %>% %>% %>% %>% %>% 
+
+Rather than filtering and selecting in different actions creating intermediate objects every time, we can combine this all together into one step using the pipe. 
+
+```{r}
+abalone %>% 
+  filter(Whole.weight < 1) %>% 
+  select(Sex, Length, Diameter, Whole.weight)
+
+# nesting functions gives the same outcome
+filter(select(abalone, Sex, Length, Diameter, Whole.weight), Whole.weight < 1)
+```
+
+
+
+Remember that this is pulling data from the parent `abalone` object but this does not affect the original object - the data that is not part of your subset is not affected but this action. It is only displaying the output of the subset, we need <- to save this results. 
+
+The functions are the same as the previous exercise but since we are piping the results of the previous line to the next command, you do not need to (and should not) specify the object as the first argument in the function. 
+
+## Tidyverse - summary statistics 
+
+`group_by()` and `summarise` `summarize` functions can be used to get summary statistics without the need to create intermediate objects.
+
+```{r}
+abalone %>% 
+  filter(Whole.weight < 1) %>% 
+  select(Sex, Length, Diameter, Whole.weight) %>% 
+  summarise(jimmy = mean(Diameter),
+            jimmy1 = mean(c(Whole.weight, Diameter)),
+            jimmy2 = mean(Length),
+            stdev = sd(Whole.weight),
+            count = n(),
+            Max = max(Whole.weight),
+            binf5003 = min(Whole.weight),
+            med_length = median(Length))
+```
+
+```{r}
+abalone %>% 
+  filter(Whole.weight < 1) %>% 
+  group_by(Sex, Rings) %>% 
+  summarise(mean_length = mean(Length),
+            median_ww = median(Whole.weight))
+```
+
+
+### Exercise 
+
+Using the parent abalone object and tidyverse functions, investigate whether the mean length of male or females are longer for abalone with a `Shucked.weight` greater than 0.3 AND a `Shell.weight` less than 0.3. 
+
+Include a checkpoint in your summarize call to make sure your filter worked. 
+
+Hint: When building long code, the best practice is to write your code one line at a time and check your work before you continue to add another line. For example, filter on the parent abalone object, check that the filtering worked, before building the next step of the analysis. 
+
+Hint: You'll need to pipe together about 3 tidyverse functions. Another suggestion when writing longer code is to use hashtags to map out what you need to do for each step before working about how to write the code to carry out these actions. 
+
+```{r}
+abalone %>% 
+  
+  # filter for Shucked.weight > 0.3 and Shell.weight < 0.3
+  filter(Shucked.weight > 0.3 & Shell.weight < 0.3) %>% 
+  
+  # filter male or female
+  group_by(Sex) %>% 
+  filter(Sex == "M" | Sex == "F") %>% 
+  
+  # summarise
+  summarise(mean = mean(Length))
+
+
+temp[temp$Sex == "F", "mean"] > temp[temp$Sex == "M", "mean"]
+# mean length of females is larger than males given the criteria
+```
+
+
+## Tidyverse - creating new columns 
+
+Lastly, we can also use `mutate()` to add a new column of information based on existing data. 
+```{r}
+# reminder: string operator
+# abalone$maturity_newcol
+
+# in tidyverse, use mutate()
+abalone %>% 
+  mutate(peter = Whole.weight * 0.3,
+         ww_oz = Whole.weight *0.035)
+```
+
+## Tidy data 
+
+Alright, now that we're familiar with a few tools to reshape the data, let's return to the original purpose of this lesson - wrangle raw data into a usable shape! But what does clean, tidy data look like? 
+
+For the next few sections, we're going to work with some example datasets that are built into R. Each of the tables display data documenting TB cases by the World Health Organization in Afghanistan, Brazil, and China between 1999 and 2000 with four variables (country, year, cases, and population), but each table organizes the values in a different layout. 
+
+```{r}
+table1
+table2
+table3
+
+# Spread across two tibbles
+table4a  # cases
+table4b  # population
+```
+
+Tidy data in a computational sense may be different from what you may prefer when you are collecting data yourself. 
+
+There are three rules to follow to make tidy data:
+
+1. Each variable has its own column
+2. Each observation has its own row
+3. Each value has its own cell
+
+You will note that these rules are interrelated and must be satisfied in long data
+
+## Exercise
+
+Explore each of these 5 tables and decide on which one most closely follows the principles for tidy data. Is this how you would have collected and tabulated the data? 
+
+```{r}
+head(table1)
+
+table1 
+table1 %>% 
+  pivot_longer(cols = "year":"population",
+               names_to = "jimmy",
+               values_to = "number")
+```
+
+

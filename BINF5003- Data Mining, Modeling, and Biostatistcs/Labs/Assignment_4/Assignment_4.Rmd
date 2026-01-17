@@ -1,0 +1,247 @@
+---
+title: "Assignment 4 - Data Modeling & DGE"
+author: 'Abrar Faruque'
+date: "October 2025"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+## Assignment 4 - Data Modeling & Differential Gene Expression
+
+The dataset can be accessed here: https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+%28Diagnostic%29
+
+The phenotype attributions are as follows: 
+
+1) ID number
+2) Diagnosis (M = malignant, B = benign)
+3-32)
+
+Ten real-valued features are computed for each cell nucleus:
+
+a) radius (mean of distances from center to points on the perimeter)
+b) texture (standard deviation of gray-scale values)
+c) perimeter
+d) area
+e) smoothness (local variation in radius lengths)
+f) compactness (perimeter^2 / area - 1.0)
+g) concavity (severity of concave portions of the contour)
+h) concave points (number of concave portions of the contour)
+i) symmetry
+j) fractal dimension ("coastline approximation" - 1)
+
+Here is some code to read in the dataset
+
+> bCancer <- read.csv("breastCancer.csv", header=T)
+
+1. Draw a histogram and a qqplot of the continuous variable `texture_mean`. [0.25]
+
+```{r}
+library(ggplot2)
+
+bCancer <- read.csv("breastCancer.csv", header=T)
+ggplot(bCancer,aes(x=texture_mean,y=..density..))+
+  geom_histogram()+
+  labs(title="Distribution of Mean Texture",x="Mean Texture", y="Density")
+
+qqnorm(bCancer$texture_mean, main = "Normal Q-Q plot of Mean Texture",
+        xlab = "Theoretical Mean Texture Density", ylab="Actual Texture Mean Density")
+qqline(bCancer$texture_mean, col = "red")
+```
+
+
+a) What is your interpretation of the qqplot? [0.25]
+
+```{r}
+#Data apears to be right skewed visually based on the histogram, the data mostly falls along the diagonal line with slight curve up, suggesting an overall normal distribution with slight skew to the right
+```
+
+
+b) Try applying a logarithmic transformation to the variable and justify whether you will be proceeding with the transformed or untransformed data when running your linear model. [0.5]
+
+```{r}
+bCancer <- read.csv("breastCancer.csv", header=T)
+logTextureMean <- data.frame (log_texture_mean <- log(bCancer$texture_mean))
+ggplot(logTextureMean, aes(x=log_texture_mean,y=..density..))+
+  geom_histogram()+
+  labs(title="Distribution of Log Mean Texture",x="Log Mean Texture", y="Density")
+
+qqnorm(logTextureMean$log_texture_mean, main = "Normal Q-Q plot of Log Mean Texture",
+        xlab = "Theoretical Mean Texture Density", ylab="Actual Log Texture Mean Density")
+qqline(logTextureMean$log_texture_mean, col = "red")
+
+#I would use the log data for the linear model as the texture mean data is no longer skewed right, the transformed data follows a more normal distribution and therefore is more appropriate for a linear regression model as it reduces biased results caused by the skew.
+```
+
+
+2. Run a linear model with `texture_mean` as a function of `area_mean`. Are the variables significantly associated with each other? [0.75]
+
+```{r}
+bCancer <- read.csv("breastCancer.csv", header=T)
+logTextureMean <- log_texture_mean <- log(bCancer$texture_mean)
+linear_model <- lm(logTextureMean ~ bCancer$area_mean)
+model_summary <- summary(linear_model)
+print(model_summary)
+coefficients <- coef(linear_model)
+intercept <- coefficients[1]
+slope <- coefficients[2]
+equation <- paste0("y = ", round(intercept, 2), " + ", slope , "x")
+print(equation)
+#the R^2 value is small (close to 0) but positive indicating that there is a very weak positive association between the two variables, the p value is very small (<0.05) which would indicate that the values are significant
+```
+
+
+3. Visualize the linear model. Include the data points from the original data and the line for the linear model. Include the formula for the equation in the title of the plot. [1]
+
+```{r}
+linear_model <- lm(logTextureMean ~ bCancer$area_mean)
+coefficients <- coef(linear_model)
+intercept <- coefficients[1]
+slope <- coefficients[2]
+equation <- paste0("y = ", round(intercept, 2), " + ", slope , "x")
+
+bCancer <- read.csv("breastCancer.csv", header=T)
+bCancer$log_texture_mean <- log(bCancer$texture_mean)
+bCancer_texture <- c(bCancer$log_texture_mean)
+ggplot(bCancer,aes(x=log_texture_mean,y=area_mean))+
+  geom_point()+
+  geom_smooth(method = "lm", se = FALSE)+
+  labs(title=equation, x = "Mean Tumor Area", y = "Mean Tumor Texture")
+  
+```
+
+
+The next exercise continues from the Week 8's practice problems. Here is the same code from class to get you started:
+
+Use the following code to download the `parathyroidSE` package. This package provides RangedSummarizedExperiment objects of read counts in genes and exonic parts for paired-end RNA-Seq data from experiments on primary cultures of parathyroid tumors.
+
+The sequencing was performed on tumor cultures from 4 patients at 2 time points over 3 conditions (DPN, OHT and control).
+
+The data were presented in the article "Evidence of a Functional Estrogen Receptor in Parathyroid Adenomas" by Haglund F, Ma R, Huss M, Sulaiman L, Lu M, Nilsson IL, Hoog A, Juhlin CC, Hartman J, Larsson C, J Clin Endocrinol Metab. jc.2012-2484, Epub 2012 Sep 28, PMID: 23024189. The raw sequencing data provided by NCBI Gene Expression Omnibus is under accession number GSE37211.
+
+```{r}
+# install.packages("BiocManager")
+# BiocManager::install("parathyroidSE")
+# BiocManager::install("DESeq2")
+library("parathyroidSE")
+
+data("parathyroidGenesSE")
+```
+
+First, build the object using count and sample data. 
+
+```{r}
+# save count data into object
+para <- assay(parathyroidGenesSE)
+
+# save sample data into object
+sample <- colData(parathyroidGenesSE)
+
+# get names of samples using `run` column
+colData(parathyroidGenesSE)$run
+
+# save these sample names into columns
+colnames(para) <- colData(parathyroidGenesSE)$run
+
+# check all our objects: count matrix and sample data
+# para
+# sample
+```
+
+Next, we can construct our DESeq object. We will specify a function that tests for the effect of treatment while controlling for the patient.
+
+```{r}
+library(DESeq2)
+para_object <- DESeqDataSetFromMatrix(
+  countData = para,
+  colData = sample,
+  design = ~ patient + treatment
+)
+```
+
+Finally, let's subset from the full dataset only data from after 48 hours of treatment.
+```{r}
+para_object_subset <- para_object[ , para_object$time == "48h" ]
+```
+
+4. Filter out the genes that contain 2 or less columns of count data. How many feature genes and samples are in this filtered subset? [0.75]
+
+```{r}
+para_genes_subset <- para_object_subset[rowSums(para)>2,]
+
+print(nrow(para_genes_subset))
+print(ncol(para_genes_subset))
+#'There are 29142 feature genes and 14 samples after filtering genes that contain 
+#'atleast 3 or more counts
+```
+
+
+5. Run the differential expression function to fit this object using generalized linear models. [0.25]
+
+```{r}
+DESeq2_para_genes_subset <- DESeq(para_genes_subset)
+```
+
+
+6. See the code below to get results for differentially expressed genes between the control and OHT treatment. Do the same for the DPN group. What are the top 5 differentially-expressed genes in the DPN group? How many genes are up- and down-regulated? [0.75]
+
+```{r}
+library(dplyr)
+# differentially expressed genes between control and OHT treatment
+results_OHT <- results(DESeq2_para_genes_subset, contrast = c("treatment", "Control", "OHT"))
+# differentially expressed genes between control and DPN treatment
+results_DPN <- results(DESeq2_para_genes_subset, contrast = c("treatment", "Control", "DPN"))
+
+DPN_results_DF <- data.frame(genes = results_DPN@rownames,
+                                   results_DPN@listData)
+#Top 5 differentially expressed genes in DNP group based on p-value (significance)
+top_genes <- DPN_results_DF %>% 
+  slice_min(pvalue,n=5)
+#'The top genes are ENSG00000168542, ENSG00000044574, ENSG00000092621, 
+#'ENSG00000091137, and ENSG00000166598
+print(top_genes)
+
+#Number of genes up/down regulated 
+up_regulated <- DPN_results_DF %>% 
+  filter(DPN_results_DF$log2FoldChange>0)
+down_regulated <- DPN_results_DF %>% 
+  filter(DPN_results_DF$log2FoldChange<0)
+
+# There are 2 upregulated and 3 downregulated genes
+```
+
+7. Compare the gene expression across treatments of the gene with the highest log-fold change. [0.5]
+
+Hint: use `which.max()` to get the highest value for log-fold change.
+
+```{r}
+plotCounts(DESeq2_para_genes_subset,
+           DPN_results_DF$genes[which.max(DPN_results_DF$log2FoldChange)], intgroup = "treatment")
+```
+
+
+8. Create a volcano plot of the differentially-expressed genes only in the DPN treatment using a p-value cutoff of 0.05. [0.75]
+
+```{r}
+library(ggplot2)
+
+DPN_results_DF$diffexpressed <- "NO"
+DPN_results_DF$diffexpressed[DPN_results_DF$log2FoldChange > 0.6 & DPN_results_DF$pvalue < 0.05] <- "UP"
+DPN_results_DF$diffexpressed[DPN_results_DF$log2FoldChange < -0.6 & DPN_results_DF$pvalue < 0.05] <- "DOWN"
+
+DPN_results_DF <- DPN_results_DF %>% 
+  filter(!is.na(pvalue))
+ggplot(DPN_results_DF, aes(x = log2FoldChange,
+                           y = -log(pvalue),
+                           color = diffexpressed))+
+  geom_vline(xintercept = c(-0.6, 0.6), col = "gray", linetype = 'dashed') +
+  geom_hline(yintercept = -log((0.05)), col = "gray", linetype = 'dashed') +
+  geom_point(size = 2) +
+  scale_color_manual(values = c("#00AFBB", "grey", "#bb0c00"),
+                     labels = c("Downregulated", "Not significant", "Upregulated"))+
+  labs(color = 'Expression', #legend_title,
+       x = expression("log"[2]*"FC"), y = expression("-log"[10]*"p-value"), 
+  title = 'Parathyroid Gene expression after 24h treatment with DPN') # Plot title
+
+```
+

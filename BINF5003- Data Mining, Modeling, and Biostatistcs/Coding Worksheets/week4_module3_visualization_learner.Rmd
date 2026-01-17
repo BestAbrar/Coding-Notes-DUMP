@@ -1,0 +1,463 @@
+---
+title: "Week 4 Module 3 - Data Visualization (1/2)"
+author: ""
+date: "January 28, 2025"
+output: html_document
+---
+
+# Tidy data 
+
+Alright, now that we're familiar with a few tools to reshape the data, let's return to the original purpose of this lesson - wrangle raw data into a usable shape! But what does clean, tidy data look like? 
+
+For the next few sections, we're going to work with some example datasets that are built into R. Each of the tables display data documenting TB cases by the World Health Organization in Afghanistan, Brazil, and China between 1999 and 2000 with four variables (country, year, cases, and population), but each table organizes the values in a different layout. 
+
+```{r}
+library(here)
+library(tidyverse)
+
+table1
+table2
+table3
+
+# Spread across two tibbles
+table4a  # cases
+table4b  # population
+```
+
+Tidy data in a computational sense may be different from what you may prefer when you are collecting data yourself. 
+
+There are three rules to follow to make tidy data:
+
+1. Each variable has its own column
+2. Each observation has its own row
+3. Each value has its own cell
+
+You will note that these rules are interrelated and must be satisfied in long data
+
+## Exercise
+
+Explore each of these 5 tables and decide on which one most closely follows the principles for tidy data. Is this how you would have collected and tabulated the data? 
+
+```{r}
+head(table1)
+
+table1 
+table1 %>% 
+  pivot_longer(cols = "year":"population",
+               names_to = "jimmy",
+               values_to = "number")
+```
+
+
+# Tidy data 2
+
+Let's first take a look at table2. 
+
+
+
+
+`table2` is closest to what we need. We can reshape and tidy the data by moving the variable names currently listed in the ______ column to create two new columns called ______ and ______ with the values currently listed in the the `count` column. 
+
+For this reason, the function we are using is called ______
+
+
+
+
+Next up: `table3`
+
+
+
+
+There are two variables of data stored under the ______ column and this is causing problems because (1) numeric values are being interpreted as characters because there is a non-numerical value and (2) cannot run statistics on either variable. We need to *_________* them into their own columns. 
+
+
+
+
+
+It's looking better but we still cannot mathematically operate on the `cases` or `population` columns because they are being recognized as characters. We can use our previous `as.numeric()` function but this base R function does not pipe into the workflow nicely. Tidyverse again has its own alternative
+
+
+
+
+
+
+
+Nice! ________ automatically parsed the data based on special characters so it's important to keep these out of your true observations. You can keep into the help manual to find out how to manually specify what character to parse the data on. 
+
+Remember the ______ matters. 
+
+One more to go: `table4`
+
+
+
+These tables hold the cases counts in one object and the population counts in another. They both also need to be reshaped so that we have one column for the year and another for the data of information. In this case, we will be using a function called ______. Again, imagine we had 5 columns information for different years the number of TB cases were recorded. These 5 columns would be reduced to 2 columns for _____ and _____ and the table would get much longer. 
+
+
+
+
+
+
+
+## Exercise
+
+This data wrangling requires a few more steps because the data is separated into two objects. In contrast to previous wrangling steps where we were displaying the results but not saving the edits to a new object, we will need to ______.
+
+There are a few steps to the next exercise: 
+
+1. Using 
+2. Write 
+3. Save 
+
+
+
+
+
+
+
+
+# Tidy data 3
+
+Before we combine the tables, we should double check that the order of the data is the same 
+
+
+
+
+
+Never assume, always build in checkpoints into your code. 
+
+Last step with this table is to ______ the tables together. There are a few columns that are repeated so we'll just bring over the data that we want 
+
+
+# Practice Problems 
+
+This problem set will be a little more challenging because I will be asking you to first explore the dataset to identify the issues before exploring solutions to the problems. 
+
+
+Explore the `table5` object and consider how to tidy up the data so that each observation has its own row and the distinct variables are neatly in their own columns. There are many ways combine values that are spread out over multiple columns, `tidyverse` has a solution to *unite* values that you may want to explore. 
+
+Take your time moving through this last exercise, you may want to first sketch out what issues you want to address before starting to write code. You are also strongly encouraged to check your work at each step to make sure R is doing what you intend for it to do. 
+
+
+# Libraries 
+
+```{r}
+library (ggplot2)
+library (dplyr)
+```
+
+
+## Import data 
+
+We're going to continue to work with the abalone dataset. As this is a new worksheet, the `abalone` does not exist yet and we will need to read in the dataset and create the dataset again. Here's a reminder of the attribute information. Please refer to the week 2 module for more information about this dataset. 
+
+```{r}
+setwd("C:/Users/Delwar/Desktop/Humber/BINF5003- Data Mining, Modeling, and Biostatistcs")
+abalone <- read.csv("abalone.csv",header=TRUE)
+```
+
+
+**Attribute Information:**
+
+Given is the attribute name, attribute type, the measurement unit and a brief description. The number of rings is the value to predict: either as a continuous value or as a classification problem.
+
+*Name / Data Type / Measurement Unit / Description*
+
+- Sex / nominal / -- / M, F, and I (infant)
+- Length / continuous / mm / Longest shell measurement
+- Diameter / continuous / mm / perpendicular to length
+- Height / continuous / mm / with meat in shell
+- Whole weight / continuous / grams / whole abalone
+- Shucked weight / continuous / grams / weight of meat
+- Viscera weight / continuous / grams / gut weight (after bleeding)
+- Shell weight / continuous / grams / after being dried
+- Rings / integer / -- / +1.5 gives the age in years 
+
+
+
+# Plotting with Base R 
+
+Just like how there are multiple ways of wrangling data (base R functions vs Tidyverse functions), there are also multiple ways of generating plots. We will start with base R plots. 
+
+Remember that the first column of abalone `Sex` needs to be coded in as factors to recognize that there are relationships between observations with the same values (ie. all the abalone with a value "M" in the Sex column share the same biological Sex). This can be done directly by reshaping as part of your wrangling steps or toggling the `stringsAsFactors` when you read in your data
+
+Base R plots are great for taking a quick peek at your data. 
+
+Let's start by looking at one continuous variable using a histogram
+
+```{r}
+hist(abalone$Height)
+hist(abalone$Length)
+```
+
+
+As with most, if not all, R functions, there are many parameters you can customize. 
+
+
+
+Next, we commonly seek to investigate correlations between two continuous variables to determine if they are related. 
+
+
+
+
+
+We can add a third _________  to see if a __________ variable is affecting this relationship. 
+
+
+
+
+It can be confusing to figure out which color corresponds to which category in base R.
+
+
+
+
+
+We can manually add a legend to the image as another layer. Make sure to run the `plot()` and `legend()` commands at the same time. `legend()` requires `plot()` as a foundation to be added to. 
+
+
+
+
+
+
+
+If we want to manually specify the colors, we need to give a list of colors for each point. In the `abalone` dataset with 4177 observations, we need to give a list of 4177 color values in the same order as the order of the observation coordinates. 
+
+
+
+Since this is based on one of the categorical values, we can use it as a foundation for building our list of colors with the help of some tidyverse data wrangling 
+
+
+
+
+
+
+
+
+Base R requires you to enter ____________
+
+Most of the time, base R plots are only used to _________. Instead, the __________ package is the gold standard for accurate, effective, and reproducible plots. 
+
+
+
+
+
+# ggplot 1d 
+
+
+This is the basic template for ggplots: 
+
+> 
+
+
+
+
+
+A single continuous variable displayed using a histogram with ggplot looks like this. 
+
+
+
+
+A smooth density line can be drawn by changing the ___________ 
+
+
+
+
+Plots can be combined and stacked together. Take note that the aesthetics that we specify using the initial `ggplot()` function will apply to all subsequent layers - in this case, both the histogram and density plot will plot `Length` along the x-axis  
+
+
+
+
+
+
+
+Uh oh! If we double check the axis of the previous few plots, we'll notice that they are on very different scales leading the density plot to be compressed. We'll need to let R know that we want the histogram scaled to the density plot 
+
+
+
+
+
+
+
+Parameters specified in the `ggplot()` call will apply to all subsequent layers joined by the `+`. Parameters defined within each geometry call apply only to those specific layers. 
+
+# ggplot 2d
+
+Two continuous variables can be contrasted using a ________ plot. 
+
+
+
+
+It is a lot simpler to add color to ggplots
+
+
+
+
+There's a lot of dots that are piling up on top of each other so we can change the alpha value to modify the ________. Remember, you can always look up more information about each function using the `?` or looking online! No need to memorize everything! 
+
+
+
+
+
+
+
+## Exercise
+
+Create a plot to investigate the relationship between the shucked weight and the shell weight of ONLY adult abalone (exclude the infant abalones). Color the plot by Sex, do you notice any difference between the two? 
+
+Hint: Remember the `!` and `-` can be used as negatives when filtering, depending on which method you are using. 
+Hint: Check your subsetting before you move on to plotting 
+
+
+
+
+
+
+
+
+# ggplot categorical 
+
+Let's take a closer look at categorical data. One categorical data can be displayed with a ___ plot. This is helpful when we are looking to see if we have equal representation in each of the sample groups. 
+
+
+
+
+Bar plots can also be easily modified. 
+
+
+
+
+
+## Exercise 
+
+Investigate the `Rings` column. Should this be considered a continuous or categorical variable? What is the best way to represent this data visually (just this variable by itself)? 
+
+
+
+
+
+
+
+# ggplot box (and family of) plots
+
+There are a few ways to visualize the relationship between a continuous and a categorical variable. The most classical form is the ________ 
+
+
+
+
+
+
+This more clearly shows that the weight distribution is comparable between the males and females. However, it would be clearer to have the F and M bars adjacent for comparison. 
+
+
+
+
+
+
+________ plots display each individual data point (which may or may not be helpful for interprepting the data). In order to spread out the data a bit ________
+
+
+
+
+
+Smoothing out the visuals of the box plot, a ________ plot also highlights where the highest density of data is. Unlike the box plot, _______
+
+
+
+
+
+
+# Practice Problems
+
+For this mini guided project, we will be working with a dataset quantifying water quality that is publicly available at: https://www.kaggle.com/datasets/adityakadiwal/water-potability?resource=download
+
+
+Here is some description of the data: 
+
+Access to safe drinking-water is essential to health, a basic human right and a component of effective policy for health protection. This is important as a health and development issue at a national, regional and local level. In some regions, it has been shown that investments in water supply and sanitation can yield a net economic benefit, since the reductions in adverse health effects and health care costs outweigh the costs of undertaking the interventions.
+Content
+
+The water_potability.csv file contains water quality metrics for 3276 different water bodies. More information about each of the columns can be found in the link above
+
+pH value
+Hardness
+Solids (Total dissolved solids - TDS)
+Chloramines
+Sulfate
+Conductivity
+Organic_carbon
+Trihalomethanes
+Turbidity
+Potability
+
+Insert a code chunk underneath each step to carry out the instruction. 
+
+1. Read in the "water_potability.csv" data into an object called data. Check the object you created by printing out the first 10 rows and applying the summary function.
+
+
+
+
+
+
+
+2. Notice that the pH column contains a couple hundred NA values. NA are special values in R (like how "pi" is preset to a value of 3.14159...) to indicate that there is missing data, or it is not available. There are also some NAs in the Sulfate and Trihalomethanes columns. 
+
+Create new object called water_df that only contains complete observations. 
+
+Hint: take a look at the function called `na.omit()`. In most cases, someone's already done what you've wanted to do so there may already be code or functions that you can adapt and use!
+
+
+
+
+
+3. The Potability column has two possible values: 1 means Potable and 0 means Not potable.
+
+It is read in by default as a character vector. Convert this column to a factor. 
+
+
+
+
+
+4. Make a histogram to show the spread of values in the `ph` column 
+
+
+
+
+
+5. Create another plot of the `ph` values but separated by whether the sample is potable or not. Format the graph with labels that would be ready for publication. 
+
+
+
+
+
+
+6. WHO has recommended maximum permissible limit of pH in drinking water from 6.5 to 8.5. 
+
+Create a new column within the `water_df` object called `ph_category` in which: 
+
+- Observations with a pH less than 6.5 have a value of `acidic` in the `ph_category`
+- Observations with a pH betwee 6.5 - 8.5 have a value of `permissible` in the `ph_category`
+- Observations with a pH greater than 8.5 have a value of `basic` in the `ph_category`
+
+There are multiple ways to do this, give it a go! You can't break the object - if you ever feel like you need a reset, you can always repeat step 1 to read in the object again. 
+
+Use `table()` or `summary()` to check the values in the `ph_category` column
+
+
+
+
+
+
+
+7. Create a plot to double check if the annotations in the `ph_category` column were applied correctly. Make sure to represent both the `ph` and `ph_category` columns. 
+
+You're welcome to use base R or ggplot functions. There are multiple ways of representing these two columns. ggplot is slightly preferred because of its increased customization so it's good to get some practice with it!
+
+
+
+
+
+
+
+
+
+
+

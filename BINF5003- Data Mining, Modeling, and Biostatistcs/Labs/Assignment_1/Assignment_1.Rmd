@@ -1,0 +1,129 @@
+---
+title: "Assignment 1 - Introduction and Wrangling"
+author: 'Nobody'
+date: '23Sept2025'
+output:
+  pdf_document: default
+  html_document: default
+---
+
+## Set-Up
+
+The dataset can be accessed here: https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+%28Diagnostic%29
+
+The phenotype attributions are as follows: 
+
+1) ID number
+2) Diagnosis (M = malignant, B = benign)
+3-32)
+
+Ten real-valued features are computed for each cell nucleus:
+
+a) radius (mean of distances from center to points on the perimeter)
+b) texture (standard deviation of gray-scale values)
+c) perimeter
+d) area
+e) smoothness (local variation in radius lengths)
+f) compactness (perimeter^2 / area - 1.0)
+g) concavity (severity of concave portions of the contour)
+h) concave points (number of concave portions of the contour)
+i) symmetry
+j) fractal dimension ("coastline approximation" - 1)
+
+Here is some code to read in the dataset
+
+> bCancer <- read.csv(here("3_csv", "breastCancer.csv"), header=T)
+
+
+## Questions
+
+1. When installing a package with the `install.packages()` function, the incoming package name needs to be enclosed in quotations. Why is this? [1]
+
+```{r Cell 1}
+# 1.
+# .packages function argument takes string, if package was not enclosed with quotations 
+# then package would appear as a variable with no assigned value/ error not found
+```
+
+2. Create a vector object with a numeric value, a character value, and a logical value. What data type is this vector and why? [1]
+
+```{r Cell 2}
+# 2.
+myVector = c (1:3,"hello",TRUE)
+summary(myVector) #vector type is 'character'
+# Vector data type is 'character' because of the character value store in vector; this 
+# changes all other data types to character as well.
+```
+
+
+3. Create a new object called `recent_fruits`.
+a) Create 5 rows with the rownames as different fruits and 3 columns named "colour", "shape", and "taste". Describe the fruit's colour and shape in one word, rank the taste out of 10. Fill out the table! [0.5]
+b) Calculate the mean taste rank from your previous table. [0.5]
+c) c) Write a function called "middle_mean" that removes the largest and smallest taste rating, and then calculates the mean. Use the function on your dataset. *Hint*: you may need any of these functions: min(), max(), nrow(), length(). [0.75]
+
+```{r Cell 3}
+#3a
+recent_fruits<- data.frame( colour <- c("Red","Green","Purple","Yellow","Yellow"), 
+                           shape <- c("Spherical","Bell-shaped","Spherical","Elongated","Spheroid"),
+                           taste <- c(5,6,8,9,2)
+  
+)
+rownames(recent_fruits) <- c("Apple", "Pear", "Grape","Banana","Lemon")
+print(recent_fruits)
+
+#3b
+print(mean(recent_fruits$taste))
+
+#3c
+middle_mean <- function(x){
+  values <- x[-c(which(x==max(x)),which(x==min(x)))]
+  return (mean(values))
+}
+print(middle_mean(recent_fruits$taste))
+```
+
+
+4. Use the bCancer dataset.
+a) Subset the samples with a mean radius less than 20 into a new object called `large_tumour`. [0.5]
+b) From the `large_tumour` object, subset for the columns describing the `id`, `diagnosis`, `radius_mean`, `texture_mean`, `smoothness_mean`, and `compactness_mean`. Reshape the data into a longer format so that there are only four columns: `id`, `diagnosis`, `variable`, and `value`. Save this into a new object called `large_tumour_long`. [0.5]
+c) Group your data by diagnosis and variable, and calculate the mean, median, max, min, standard deviation, and count the number of observations. Save this into a table object called `large_tumour_summary`. *Hint*: first, figure out what type of data format you may need (`large_tumour_long` or `large_tumour`), and then check that your data columns are the correct class. [0.5]
+d) Which patients have the 5 largest `radius_mean`, and what is their diagnosis? Which patients have the 5 smallest `radius_mean`, and what is their diagnosis? What does this trend potentially tell you about the data? *Hint*: there are multiple measurements for each patient, so use mean() to average these measurements. [0.75]
+```{r Cell 4}
+# CODE CELL 4
+setwd("C:/Users/Delwar/Desktop/Humber/BINF5003- Data Mining, Modeling, and Biostatistcs/Labs/Assignment_1")
+library(tidyverse)
+breastCancer <- read.csv("breastCancer.csv", header = TRUE)
+
+#4a)
+large_tumour = breastCancer[breastCancer$radius_mean<20,]
+
+#4b)
+large_tumour_long <- large_tumour[,c("id", "diagnosis", "radius_mean", "texture_mean",
+                                     "smoothness_mean", "compactness_mean")]
+large_tumour_long <- large_tumour_long %>% 
+  pivot_longer(cols = "radius_mean":"compactness_mean",
+               names_to = "variable",
+               values_to = "value")
+
+#4c)
+large_tumour_summary<-large_tumour_long %>%
+  group_by(diagnosis, variable) %>% #"Group your data by diagnosis and variable"
+  summarise(mean = mean(value),
+            median = median(value),
+            max = max(value),
+            min = min(value),
+            standard_deviation = sd(value),
+            length = length(value)
+            )
+print(large_tumour_summary) #there are 8 observations in 'large_tumour_summary' 
+                            #('M' was observed 357 times)
+                            #('B' was observed 167 times)
+#4d)
+Largest <- breastCancer[,c("id", "diagnosis", "radius_mean")] %>% 
+  slice_max(radius_mean,n=5)
+Smallest <- breastCancer[,c("id", "diagnosis", "radius_mean")] %>% 
+  slice_min(radius_mean,n=5)
+print(Largest) #the tumors with largest mean radius are all "M" (Malignant) diagnosis
+print(Smallest) #the tumors with smallest mean radius are all "B" (Benign) diagnosis
+```
+

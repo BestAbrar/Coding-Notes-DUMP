@@ -1,0 +1,128 @@
+---
+title: "Week 12 Module 8 - UAMP and Extras"
+author: ""
+date: "April 1, 2025"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+The last couple of weeks will feature a smorgasbord of topics that will reinforce everything we learned this semester, and hopefully will help you with writing your final report.
+
+## Set Up
+
+```{r}
+library(tidyverse)
+library(here)
+library(umap)
+library(plotly)
+```
+
+## R Tips
+
+### Markdown
+
+
+
+
+### Code Chunk Options
+
+
+
+## Writing Tips
+
+
+### Analyses Methods
+
+Start with the data: This dataset is from _____. Data was collected by ____ for _____ at this time______. The columns I am using are ______.
+Then, talk about data wrangling: The three columns of interest I am using were wrangled to prepare it for analysis. Column 1 is a factor with 3 levels _______, column 2 ______. I log-transformed column 3 to ensure it fit a normal distribution. I removed missing values in _____. I ended up with ______ rows of data.
+Next, talk about your analysis: I performed a simple linear model using _____ as the explanatory variable and _____ as the response variable. The model results show ______ as the intercept and _____ as the slope. As ___ increases, ____ increases/decreases.
+
+### Figure Captions
+
+All tables and figures must be associated with a figure caption. The figure caption should describe the figure fully where if you do not see the figure, you should still be able to understand the results. For example:
+
+Figure 1. Scatterplot of brain weight (mg) versus brain size (cm^3). Sex is coloured by male (green) and female (red). A linear model found that there was a significant effect of size on brain weight for males (F(1, df) = 3, p = 0.02), but not on females.
+
+Do not include figure captions in your presentation as you will be **stating** your results out loud.
+
+
+### Discussion
+
+You should discuss why you think you got those results: Y increases as x increased. These genes are involved, which are genes important for _______. This matches previous work done by ___ research groups that found ______. However, this pattern was different than other research that found_____. The reason for this is _____.
+
+
+## UMAP
+
+Uniform Manifold Approximation and Projection (UMAP) is similar to a PCA in that it is a dimensionality reduction method. The difference is that it uses non-linear algorithm, specficially k-nearest neighbours. K-means groups together similar data points into clusters by minimizing the distance between data points in a cluster with their centroid or k-mean value. Then, it plots the same clusters into lower dimensions.
+
+It can be used for the analysis of many types of data, including for single cell RNA-seq and cancer omic data. 
+
+First, let's load our data. 
+```{r}
+gset <- getGEO("GSE183071", GSEMatrix = TRUE, getGPL = TRUE)
+
+gset <- gset[[1]] # only do this once
+
+#this displays the summary of the object
+gset
+```
+
+Let's transpose our exression table so that it is ready for UMAP transformation.
+
+
+
+
+The main component of the object is "layout", which holds a matrix with coordinates.
+
+
+
+We can use these coordinates to visualize.
+
+
+
+We see that UMAP separates the clusters corresponding to the tissue type, but not COVID status.
+
+
+The `knn` object also tells you the indexes and distance.
+
+
+
+### Customizing UMAP
+
+The parameters in UMAP can be changed:
+
+* n_neighbors: This controls the number of neighbors in KNN, and changing the number of neighbours changes what points are similar to any given point
+
+* min_dist: ranges from 0.0 to 1.0, and refers to the packing of data in the final projection. If data is packed too tightly, then it is harder to split clusters, while very loose packing might lead to loss of shape and cluster formations
+
+* n_components: changes the dimensionality for our reduction; by default n_components = 2 (2 dimensions), but sometimes it may be better to view data in 3D
+
+Let's customize some of these configurations.
+
+
+
+
+
+We can see how the UMAP has changed now:
+
+
+
+
+Changing the number of neighbours into a higher value means ____ clusters are formed, but the boundaries are very close together (especially since the minimum distance is still quite high).
+
+If we change the `min_dist` to a lower value, the packing becomes loose, but the clusters are not discernable (compared to original). A lower n_neighbors value is not a good idea if we have a large dataset.
+
+
+
+
+### 3D Visualization
+
+While we usually plot data on 2 dimensions to visualize it better on a scatterplot, we can also create 3 dimensional visualizations by projecting it on 3 components. This can be done by changing the n_components parameter to 3.
+
+There is no easy way to visualize 3D plots in `ggplot2`, so we'll use the `plot_ly()` function from the `plotly` package.
+
+
+
+

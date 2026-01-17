@@ -1,0 +1,36 @@
+Group 1 (Alexandria)
+I like the research question ,and the line graph showing average screen time versus mental health index between type of work was a very surprising figure, I think the findings were also surprising, wouldn’t have expected that work-type and stress would have less effect than screen time
+Group 2  (Noora, Asma, Tori, Jihyun)
+I think it’s more surprising that the dataset didn’t show a correlation between hours studied and their GPA, was there a concern over the quality of the data set? Overall I think this topic could definitely be revisited with different data collection methods as you had suggested.
+Group 3 (Nicole)
+Very cool study, mitosis being the most sensitive for cancer treatments makes a lot of sense
+Group 4 (Maya)
+I’ve never heard of a dataset being supplemented by algorithmic methods before, could it have an influence with exaggerating trends and the noise seen in your findings?
+Group 5 (Gizem Esra Genc)
+I think making a predictor model based on a dataset was very cool
+Group 6 (David, Yinglan)
+This topic is very near to my heart, I appreciate your thorough investigation to the detail you have gone through
+Group 7 (Robert)
+Great presentation, I wish F1 had less strict rule sets and went back to true-form, kinda was expecting pole position have a strong correlation when everything is standardized
+Group 10 (Lauren)
+I think it’s interesting that potassium and fiber was high in nuts, I like the idea of using PCAs for the individual nutrient types and
+Group 11 (Kerry, Morsal, Raed)
+Was there an explanation for the trends seen with the run-time of the movie versus time, why was there a plateau in runtime for more recent films
+Group 12 (Alize)
+I really like the figures and the layout of your presentation, it’s very aesthetically pleasing. 
+Group 13 (Rohan)
+Great explanation of LASSO for filtering data, it’s an interesting approach that I wasn’t aware of before
+Group 14 (Navpreet)
+Great job contrasting the statistical models to handle highly skewed data, I think it was very well done
+Group 15 (Sadaf)
+Great presentation, I hope this topic can be revisited using data that isn’t self-reported as it seems to tend to give strange findings, perhaps BMI and poor diet have a stronger correlation on OSVP than first thought
+Group 16 (Oxana)
+Good presentation, I’m not surprised that companies that take less risky behaviour are also the ones that perform the best.
+Group 17 (Dhra)
+Diabetes factors makes sense, I don’t know if I missed it but I think it would be a great idea to also look at population demographics as well.
+Group 18 (Rabindra)
+Great presentation, not surprisingly elderly have the most negative to complain about hospital wait times
+Group 19 (Tija)
+AML and ALL is definitely an important topic, I like the visualization of showing the statistical differences between the two Leukemia.
+Group 20 (Joud)
+I think the most shocking part of this presentation is that my honey might possibly not be honey, great presentation overall, I like the great case you made to show the correlation (or lack there of) between honey bees and insecticides

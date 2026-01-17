@@ -1,0 +1,199 @@
+"No","Variable","Stats / Values","Freqs (% of Valid)","Graph","text.graph","Valid","Missing"
+1,"id\
+[character]","1\. 140766317\
+2\. 140766435\
+3\. 140766772\
+4\. 140766922\
+5\. 140767442\
+6\. 140767604\
+7\. 140767687\
+8\. 140768485\
+9\. 140768512\
+10\. 140768560\
+[ 51791 others ]","\    1 (  0.0%)\
+\    1 (  0.0%)\
+\    1 (  0.0%)\
+\    1 (  0.0%)\
+\    1 (  0.0%)\
+\    1 (  0.0%)\
+\    1 (  0.0%)\
+\    1 (  0.0%)\
+\    1 (  0.0%)\
+\    1 (  0.0%)\
+\51791 (100.0%)","<img style=""border:none;background-color:transparent;padding:0;max-width:max-content;"" src=""data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAKIAAAEKBAMAAABj5JMfAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURf////3+/aampvDw8P///7GHRIEAAAACdFJOUwAAdpPNOAAAAAFiS0dEAIgFHUgAAAAHdElNRQfpDA4QAxNrBcu1AAAAnklEQVR42u3VsQ2DUBQEQVpwCWd3AP33RuKMkBP6T8wWMOlum1rlU4tIJBKJxIvYA98thkgkEolEvy6LIRKJRCJxlNgDJ4khEolEInGU2AMniSESiUQi0V2XF0MkEolEol8vL4ZIJBKJRL8uiyESiUQicZTYAyeJIRKJRCJxlNgDJ4khEolEItFdlxe/vf7i72i1E4lEIvFhsX8F3e8EYwzOElxQWMEAAAAASUVORK5CYII="">"," \ 
+ \ 
+ \ 
+ \ 
+ \ 
+ \ 
+ \ 
+ \ 
+ \ 
+ \ 
+IIIIIIIIIIIIIIIIIII","51801\
+(100.0%)","0\
+(0.0%)"
+2,"review\
+[character]","1\. good\
+2\. yes\
+3\. good game\
+4\. fun\
+5\. .\
+6\. nice\
+7\. good
+\
+8\. gg\
+9\. cool\
+10\. good game
+\
+[ 35281 others ]","\ 1337 ( 2.6%)\
+\  687 ( 1.3%)\
+\  649 ( 1.3%)\
+\  502 ( 1.0%)\
+\  487 ( 0.9%)\
+\  383 ( 0.7%)\
+\  351 ( 0.7%)\
+\  167 ( 0.3%)\
+\  162 ( 0.3%)\
+\  156 ( 0.3%)\
+\46920 (90.6%)","<img style=""border:none;background-color:transparent;padding:0;max-width:max-content;"" src=""data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAJQAAAEKBAMAAAAGCWFgAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURf////3+/aampvDw8P///7GHRIEAAAACdFJOUwAAdpPNOAAAAAFiS0dEAIgFHUgAAAAHdElNRQfpDA4QAxYbbz86AAAAu0lEQVR42u3VsQ3DMAxFQa+QESRvEO+/WxojnQEn/AVh3RvgClKgtk2/NOd4VTup/UChUCjU/1TwIJedhajA1L+PAYVCoVAFKniQ61BzyueFQqFQz6P8g/epiUKhUCjUNRWQelM9x45CoVCoChWQlqF6bhCFQqFQFSogLUP13CAKhUKhKlRA6k0NFAqFQqGuqYDUmxooFAqFQl1TAak3NVAoFAr1OCogLUPNQCe1H+XeKBQKtS4VPMi61wd8c0uVM627SgAAAABJRU5ErkJggg=="">"," \ 
+ \ 
+ \ 
+ \ 
+ \ 
+ \ 
+ \ 
+ \ 
+ \ 
+ \ 
+IIIIIIIIIIIIIIIIII","51801\
+(100.0%)","0\
+(0.0%)"
+3,"created_date\
+[Date]","min : 2023-06-27\
+med : 2023-10-22\
+max : 2024-02-01\
+range : 7m 5d","220 distinct values","<img style=""border:none;background-color:transparent;padding:0;max-width:max-content;"" src=""data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAJgAAABuBAMAAAApJ8cWAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURf////3+/aampvDw8P///7GHRIEAAAACdFJOUwAAdpPNOAAAAAFiS0dEAIgFHUgAAAAHdElNRQfpDA4QAxYbbz86AAAA4ElEQVRo3u3YYRKCIBAFYK6QN2i9Qdz/bpHbrESOLPCaMt8Of/zh5wNExRBYPXXprUlE7GAYi/FGjNhJscdawmBPCYSpRIwYsQ9jad1eYdgc4+9iTT2tYU3hDo35h23F7BOtxPzhVszCEYNgzgn1Yc5w38E8PXVjnnAvmC4CEKbhiBH7H0yW2iR1k9+C7eSbdDE2Y3k4++tQZvJieTjbwKGwzdHqxZaTBjCbVgRm+SpYuiIOS82LSbbvHcbmbGyA2Pu9P4DtNGLEiBEjdnosvXJwWFUiRowYsfIRBKjA6qk7F/a8Fu+7ewkAAAAASUVORK5CYII="">","\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\
+: . \ \ \ \ \ \ \ \ \ \ : :\
+: : : . . . . : : :\
+: : : : : : : : : :\
+: : : : : : : : : :","51801\
+(100.0%)","0\
+(0.0%)"
+4,"voted_up\
+[logical]","1\. FALSE\
+2\. TRUE","\ 4830 ( 9.3%)\
+\46971 (90.7%)","<img style=""border:none;background-color:transparent;padding:0;max-width:max-content;"" src=""data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAJQAAAA3BAMAAAAYmn6nAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURf////3+/aampvDw8P///7GHRIEAAAACdFJOUwAAdpPNOAAAAAFiS0dEAIgFHUgAAAAHdElNRQfpDA4QAxYbbz86AAAATElEQVRYw+3VMQ0AIAxE0VpAAsUB+PfWBFjYIO0A5H8Bb7nhROgkHeXkaFKl9aCgoKCgPqICb8JDPEFpQOuCnioUFBQU1F1U4E3QXgadCqRGXtJqkgAAAABJRU5ErkJggg=="">","I \ 
+IIIIIIIIIIIIIIIIII","51801\
+(100.0%)","0\
+(0.0%)"
+5,"votes_up\
+[integer]","Mean (sd) : 0.6 (22.4)\
+min < med < max:\
+0 < 0 < 3942\
+IQR (CV) : 0 (38.2)","102 distinct values","<img style=""border:none;background-color:transparent;padding:0;max-width:max-content;"" src=""data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAJgAAABuBAMAAAApJ8cWAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURf////3+/aampvDw8P///7GHRIEAAAACdFJOUwAAdpPNOAAAAAFiS0dEAIgFHUgAAAAHdElNRQfpDA4QAxYbbz86AAAARklEQVRo3u3MQREAEBAAwKugAg1c/248JDheZjfARlDRt3btZCNzymQymUwmk8lkMplMJpPJZDKZTCaTyWQymezPrD8RVCyAXg2pqHOTtQAAAABJRU5ErkJggg=="">",":\
+:\
+:\
+:\
+:","51801\
+(100.0%)","0\
+(0.0%)"
+6,"comment_count\
+[integer]","Mean (sd) : 0 (0.4)\
+min < med < max:\
+0 < 0 < 46\
+IQR (CV) : 0 (19)","18 distinct values","<img style=""border:none;background-color:transparent;padding:0;max-width:max-content;"" src=""data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAJgAAABuBAMAAAApJ8cWAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURf////3+/aampvDw8P///7GHRIEAAAACdFJOUwAAdpPNOAAAAAFiS0dEAIgFHUgAAAAHdElNRQfpDA4QAxYbbz86AAAARklEQVRo3u3MQREAIAgAMCoYQYxA/25+TIC+vC3AIujIzDmunWxVyWQymUwmk8lkMplMJpPJZDKZTCaTyWQymezTLJ8IOjatyAcENeZWZwAAAABJRU5ErkJggg=="">",":\
+:\
+:\
+:\
+:","51801\
+(100.0%)","0\
+(0.0%)"
+7,"author_num_games_owned\
+[integer]","Mean (sd) : 20 (127.8)\
+min < med < max:\
+0 < 0 < 18126\
+IQR (CV) : 6 (6.4)","662 distinct values","<img style=""border:none;background-color:transparent;padding:0;max-width:max-content;"" src=""data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAJgAAABuBAMAAAApJ8cWAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURf////3+/aampvDw8P///7GHRIEAAAACdFJOUwAAdpPNOAAAAAFiS0dEAIgFHUgAAAAHdElNRQfpDA4QAxdsaA+sAAAAR0lEQVRo3u3MQREAEBAAwKsgghPh+nfjIQFeZjfARnAil95u7WxUlUwmk8lkMplMJpPJZDKZTCaTyWQymUwmk8n+zPKJ4MQEKpcUXT2dPg8AAAAASUVORK5CYII="">",":\
+:\
+:\
+:\
+:","51801\
+(100.0%)","0\
+(0.0%)"
+8,"author_num_reviews\
+[integer]","Mean (sd) : 5.8 (12.6)\
+min < med < max:\
+1 < 2 < 440\
+IQR (CV) : 5 (2.2)","184 distinct values","<img style=""border:none;background-color:transparent;padding:0;max-width:max-content;"" src=""data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAJgAAABuBAMAAAApJ8cWAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURf////3+/aampvDw8P///7GHRIEAAAACdFJOUwAAdpPNOAAAAAFiS0dEAIgFHUgAAAAHdElNRQfpDA4QAxdsaA+sAAAAWElEQVRo3u3ZsQ3AIAxFQa/ACrAB7L9bKFxQ46SIdG+Ak3/tCN3Ud61cYmOtCYPBYDAYDAaDwWAwGAwGg8FgMBgMBoPBYH/B6v/SA6sf9yFWXJpYf6XQTQ/Vxg8+GMJ/QwAAAABJRU5ErkJggg=="">",":\
+:\
+:\
+:\
+:","51801\
+(100.0%)","0\
+(0.0%)"
+9,"author_playtime_forever\
+[integer]","Mean (sd) : 11199 (24777.6)\
+min < med < max:\
+5 < 5052 < 1470929\
+IQR (CV) : 9539 (2.2)","21087 distinct values","<img style=""border:none;background-color:transparent;padding:0;max-width:max-content;"" src=""data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAJgAAABuBAMAAAApJ8cWAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURf////3+/aampvDw8P///7GHRIEAAAACdFJOUwAAdpPNOAAAAAFiS0dEAIgFHUgAAAAHdElNRQfpDA4QAxdsaA+sAAAATklEQVRo3u3ZWxUAEBQAwVtBBETQv5vHkQAfPmYDTIGN0EllltNlG6ttBIPBYDAYDAaDwWAwGAwGg8FgMBgMBoPBYLCvsDWGH2DlSaGTOhN8IfvVB/rIAAAAAElFTkSuQmCC"">",":\
+:\
+:\
+:\
+:","51801\
+(100.0%)","0\
+(0.0%)"
+10,"author_playtime_last_two_weeks\
+[integer]","Mean (sd) : 342.7 (1028.8)\
+min < med < max:\
+0 < 0 < 19849\
+IQR (CV) : 151 (3)","3745 distinct values","<img style=""border:none;background-color:transparent;padding:0;max-width:max-content;"" src=""data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAJgAAABuBAMAAAApJ8cWAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURf////3+/aampvDw8P///7GHRIEAAAACdFJOUwAAdpPNOAAAAAFiS0dEAIgFHUgAAAAHdElNRQfpDA4QAxdsaA+sAAAAYElEQVRo3u3ZsRGAMAwEQbVACYgOUP+9wQwkHjLLAcFeAZt8+BGaKe+2di92VJ0wGAwGg8FgMBgMBoPBYDAYDAaDwWAwGAw2Ypm5L8Oq6r9Y84AdseYOXyyfGlguKTTTBaOeEbOLhg0oAAAAAElFTkSuQmCC"">",":\
+:\
+:\
+:\
+:","51801\
+(100.0%)","0\
+(0.0%)"
+11,"author_playtime_at_review\
+[integer]","Mean (sd) : 8224.4 (22873.6)\
+min < med < max:\
+5 < 2422 < 1275576\
+IQR (CV) : 6655 (2.8)","17266 distinct values","<img style=""border:none;background-color:transparent;padding:0;max-width:max-content;"" src=""data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAJgAAABuBAMAAAApJ8cWAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURf////3+/aampvDw8P///7GHRIEAAAACdFJOUwAAdpPNOAAAAAFiS0dEAIgFHUgAAAAHdElNRQfpDA4QAxdsaA+sAAAAR0lEQVRo3u3MQREAEBAAwKugAg3o340xEhwvsxtgI8ioW7l0sjaWLpPJZDKZTCaTyWQymUwmk8lkMplMJpPJZLIfs/pEkDEBX0ooWyjXSzoAAAAASUVORK5CYII="">",":\
+:\
+:\
+:\
+:","51801\
+(100.0%)","0\
+(0.0%)"
+12,"word_count\
+[integer]","Mean (sd) : 11.7 (41.8)\
+min < med < max:\
+1 < 3 < 1883\
+IQR (CV) : 7 (3.6)","441 distinct values","<img style=""border:none;background-color:transparent;padding:0;max-width:max-content;"" src=""data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAJgAAABuBAMAAAApJ8cWAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURf////3+/aampvDw8P///7GHRIEAAAACdFJOUwAAdpPNOAAAAAFiS0dEAIgFHUgAAAAHdElNRQfpDA4QAxdsaA+sAAAATklEQVRo3u3ZQRUAEBBAwa0gAiJs/254TwIcHOYHmAI/Qie1WS23baxnJgwGg8FgMBgMBoPBYDAYDAaDwWAwGAwGg8G+wtYXfoK1J4VOGoZpFJGdvXcDAAAAAElFTkSuQmCC"">",":\
+:\
+:\
+:\
+:","51801\
+(100.0%)","0\
+(0.0%)"
+13,"unique_word_count\
+[integer]","Mean (sd) : 9.2 (23.3)\
+min < med < max:\
+1 < 3 < 590\
+IQR (CV) : 7 (2.5)","302 distinct values","<img style=""border:none;background-color:transparent;padding:0;max-width:max-content;"" src=""data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAJgAAABuBAMAAAApJ8cWAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURf////3+/aampvDw8P///7GHRIEAAAACdFJOUwAAdpPNOAAAAAFiS0dEAIgFHUgAAAAHdElNRQfpDA4QAxdsaA+sAAAAU0lEQVRo3u3ZMREAIRAEwbOABMAB+PdGPY8CjrAn2LANbIRuartach2szy8YDAaDwWAwGAwGg8FgMBgMBoPBYDAYDAaDZbH/zH2E7R1prD0pdNMC2NQwEPkL7zsAAAAASUVORK5CYII="">",":\
+:\
+:\
+:\
+:","51801\
+(100.0%)","0\
+(0.0%)"
+14,"author_last_played_date\
+[Date]","min : 2015-04-22\
+med : 2024-01-11\
+max : 2024-02-01\
+range : 8y 9m 10d","928 distinct values","<img style=""border:none;background-color:transparent;padding:0;max-width:max-content;"" src=""data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAJgAAABuBAMAAAApJ8cWAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAPUExURf////3+/aampvDw8P///7GHRIEAAAACdFJOUwAAdpPNOAAAAAFiS0dEAIgFHUgAAAAHdElNRQfpDA4QAxdsaA+sAAAAWElEQVRo3u3YQRGAMAwAwVgACakD4t8bdKYvniUvZk/ACrgI7XR87cynNqyqLhgMBoPBYDAYDAaDwWAwGAwG+zU2r2p2YWNCMBgMBoPBYM1Yrt5YthTa6QbsHyZiRmSpNwAAAABJRU5ErkJggg=="">","\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :","51801\
+(100.0%)","0\
+(0.0%)"

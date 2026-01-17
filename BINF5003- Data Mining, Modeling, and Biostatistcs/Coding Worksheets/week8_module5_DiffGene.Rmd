@@ -1,0 +1,478 @@
+---
+title: "Week 8 Module 5 - Differential Gene Expression (1/1)"
+author: 
+date: "2025"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+## Set up 
+
+So far, we've been working with libraries hosted and maintained by CRAN, the Comprehensive R Archive Network. This will be your main source of general packages. For biological applications, you can find more specialized tools using Bioconductor. Like CRAN, they maintain a different repository of free and open source packages. You can imagine this is like having access to two different app stores in your phone but they each host different games/apps. 
+
+Everything you find in Bioconductor is written with and for R. 
+
+The first step of install packages is different because you are accessing a different repository. However, after the initial install, you will follow the same process of opening the library each time you need it in the workflow. 
+
+```{r}
+# if (!require("BiocManager", quietly = TRUE))
+# install.packages("BiocManager")
+# 
+# BiocManager::install("GEOquery")
+# BiocManager::install("oligo")
+# BiocManager::install("limma")
+# BiocManager::install("hgu133a.db")
+# BiocManager::install("Biobase")
+# 
+# 
+# BiocManager::install("DESeq2")
+# BiocManager::install("EnhancedVolcano")
+# BiocManager::install("airway")
+# 
+# install.packages(c("ggrepel", "ggrastr", "ggfortify"))
+```
+
+```{r}
+library(GEOquery)
+library(oligo)
+library(limma)
+library(hgu133a.db)
+library(Biobase)
+library(ggplot2)
+library(tidyverse)
+library(cowplot)
+library(ggfortify)
+```
+
+## Gene Expression Omnibus 
+
+GEO, or Gene Expression Omnibus, is the dominant repository for microarray gene expression data. Depositing microarray expression data is very structured and there is a lot of required information to make sure the data is accessible and the analysis is reproducible. They also maintain repositories for different formats such as RNA seq. 
+
+Microarray data is deposited as the raw data along with descriptive phenotype data that describes the differences between samples. Although custom chips exist, generally, microarry chips are pretty standardized so there are packages to interpret which genes are being measured. Altogether, this can be accessed as an Expression Set or eset data. This is an complex data type with linked objects. 
+
+The easiest way to import data is using a built in function from GEOquery directly from the GEO servers
+
+```{r}
+gset <- getGEO("GSE183071", GSEMatrix = TRUE, getGPL = TRUE)
+
+# this line of code checks if there are more than one data files associated with the accession and selects the first one. it also provides the GP or platform ID, the chip version and manufacture such that annotation about the genes is obtained
+# will need Internet connection
+
+gset <- gset[[1]]
+# this displays the summary of the object
+# double square brackets indexes recursively, used for lists within lists
+# overwriting object - be careful to only run this once!
+
+gset
+
+class(gset)
+str(gset)
+```
+
+The `gset` object is a `list` of `ExpressionSet` object. A list means that there are many related objects that are grouped together. 
+
+The base gene expression table can be found using the `exprs()` function. Gene expression tables are generally really big so please don't output everything all at once. 
+
+```{r}
+dim(exprs(gset))
+# 594 features, 156 samples
+
+exprs(gset)[1:5, 1:5]
+```
+
+In this table, samples or phenotypes will always be along the columns and genes or features will be along the rows. We can get more information either of these descriptors 
+
+```{r}
+head(fData(gset)) # gene features
+head(pData(gset)) # sample phenotypes
+```
+
+Each of these characteristics can be accessed directly from the gset as well 
+
+```{r}
+table(gset$characteristics_ch1.4)
+```
+
+## Expression data 
+
+The expression table will be the main table we will use when investigating gene expressions!
+
+Most expression data is log base 2 transformed because the raw data does not follow normal distribution. 
+
+```{r}
+hist(exprs(gset), 100, main = "Log2 transformed data")
+hist(2^exprs(gset), 100, main = "Raw data")
+```
+
+We will come back to this dataset when learning about dimensional reductions.
+
+### Exercise 
+
+Use ggplot to re-create these two histograms. Arrange the two plots together and label them 'A' and 'B'. 
+
+```{r}
+head(colnames(exprs(gset)))
+tail(colnames(exprs(gset)))
+
+p1<-as.data.frame(exprs(gset)) %>% 
+	gather(GSM5550565:GSM5550720, key ="sample", value ="expres" ) %>% 
+	ggplot(aes(expres)) +
+		geom_histogram(bins=50) +
+	ggtitle("Log 2 transformed")
+
+p2<-as.data.frame((2^exprs(gset))) %>% 
+	gather(GSM5550565:GSM5550720, key ="sample", value ="expres" ) %>% 
+	ggplot(aes(expres)) +
+		geom_histogram(bins=50) +
+	ggtitle("Raw space data")
+
+plot_grid(p1, p2, nrow=2)
+```
+
+
+## Airway Dataset 
+
+The dataset that we will be using now comes from the `airway` package. This dataset contains RNA-Seq sequencing data from an four primary human airway smooth muscle (ASM) cells that were either treated with dexamethasone (a synthetic glucocorticoid, or steroid hormone).
+
+The data can be called by using the function `data()`, which will load the `gse` object from the airway package into our environment.
+
+### Exercise
+
+Investigate the `gse` object.
+
+```{r}
+library(airway)
+data("gse")
+
+str(gse)
+```
+
+This `SummarizedExperiment` object is a high-dimension object. At its centre, it contains a matrix with RNA count data. Remember that RNA-Seq data counts how many reads in each sample overlap or align with a gene of interest, and is a measure of gene expression.
+
+Rows represent genes (or features), and columns represent samples. Using the `assay()`function, we can grab our matrix.
+
+```{r}
+# assay(gse)
+dim(assay(gse)) # 58294 feature genes, 8 samples
+```
+
+We can also use the functions `rowRanges()` and `colData` to further peek into our object.
+
+```{r}
+rowRanges(gse) # first and last 5 genes in matrix
+seqinfo(rowRanges(gse)) # metadata about our sequences
+
+colData(gse) # sample names, as well as the donor ID, and the treatment condition (treated with dexamethasone or untreated)
+as.data.frame(colData(gse)) # for readability
+```
+
+## Converting to DESeqDataset
+
+Before we actually begin to investigate differential gene expression, we must first convert our data object into a usable form for DESeq2. In DESeq2, the custom class is called DESeqDataSet. It is built on top of the SummarizedExperiment class, and it is easy to convert SummarizedExperiment objects into DESeqDataSet objects.
+
+There are two main differences between SummarizedExperiment and DESeqDataSet objects:
+
+1. The assay slot is accessed using the `counts()` accessor function, and the DESeqDataSet class enforces that the values in this matrix are non-negative integers.
+2. The DESeqDataSet has an associated design formula. The experimental design is specified at the beginning of the analysis, as it will inform many of the DESeq2 functions how to treat the samples in the analysis (one exception is the size factor estimation, i.e., the adjustment for differing library sizes, which does not depend on the design formula). The design formula tells which columns in the sample information table (colData) specify the experimental design and how these factors should be used in the analysis.
+
+The simplest design formula for differential expression would be `~ condition`, where condition is a column in colData(dds) that specifies which of two (or more groups) the samples belong to.
+
+For the airway experiment, we will specify `~ donor + condition` meaning that we want to test for the effect of dexamethasone (condition) controlling for the effect of different cell line (donor).
+
+
+```{r}
+library(DESeq2)
+dds <- DESeqDataSet(gse, design = ~ donor + condition)
+
+dds # this is our DESeq object
+
+# counts(dds) # access counts data
+```
+
+
+## Wrangling
+
+Our count matrix with our DESeqDataSet contains many rows with only zeros, and additionally many rows with only a few fragments total. In order to reduce the size of the object, and to increase the speed of our functions, we can remove the rows that have no or nearly no information about the amount of gene expression.
+
+Here, let's apply the most minimal filtering rule: removing rows of the DESeqDataSet that have no counts, or only a single count across all samples. Use the `rowSums()` function to assess whether genes (rows) have at least two columns of count data.
+
+```{r}
+nrow(dds) # 58294 rows
+
+# keep only rows with at least two counts
+# rowSums(counts(dds)) > 1
+dds_clean <- dds[rowSums(counts(dds)) > 1, ]
+
+nrow(dds_clean) # 31604 rows
+```
+
+Additional weighting/filtering to improve power can be applied at a later step in the workflow.
+
+## Differential Gene Expression
+
+Now, we are ready to fit our model! Use the `DESeq()` function to run the analysis. This function normalizes the read counts, estimates the size factors and dispersions, and then fits a generalized liner model on our count data.
+
+```{r}
+diff_dds <- DESeq(dds_clean)
+```
+
+After running the command, we can get our model coefficients (aka our slope) using the `coef()` function. We can also get the metadata of our model using `mcols()`.
+
+```{r}
+# coefficients for each gene based on phenotype
+head(coef(diff_dds))
+
+# metadata
+# mcols(diff_dds)
+```
+
+Remember to store and obtain the results.
+
+```{r}
+diff_results <- results(diff_dds)
+head(diff_results)
+```
+
+Under the hood, this is what is happening! These helper functions may help you understand how gene expression is estimated. These values should all be the same as the results from our original `DESeq()` call.
+
+```{r}
+# first, estimate size factors of the dds object and normalize
+dds_size <- estimateSizeFactors(dds_clean)
+# normalizationFactors(dds_size)
+
+# check with original diff_dds object
+# normalizationFactors(diff_dds)
+
+
+# next, estimate dispersion using size factors
+dds_dispersions <- estimateDispersions(dds_size)
+# dispersions(dds_dispersions)
+
+# check with original diff_dds object
+# dispersions(diff_dds)
+
+
+# plot dispersion estimates
+plotDispEsts(dds_dispersions)
+```
+
+
+What are the top genes that are differentially expressed? We can order our results by p-value.
+
+```{r}
+results_ordered <- diff_results[order(diff_results$padj), ] 
+```
+
+Let's summarize the number of genes that are up- and down-regulated. These are genes that are expressed higher or lower, respectively, in response to the steroid. There is also information about genes that were outliers, and other genes removed due to low counts.
+
+```{r}
+summary(results_ordered)
+```
+
+We can use the `sum()` function to get the total number of genes showing significant difference in gene expression between the two samples.
+
+```{r}
+sum(diff_results$padj < 0.05, na.rm = TRUE) # 3541 genes are differentially expressed
+```
+
+
+## Visualization
+
+As a simple case, let’s compare expression of one gene across different treatments.
+
+```{r}
+plotCounts(diff_dds, gene = "ENSG00000285991.1", intgroup = "condition")
+
+# or compare gene expression of gene with lowest p-value
+plotCounts(diff_dds, gene = which.min(diff_results$padj),
+           intgroup = "condition")
+
+# using ggplot
+plotCounts(diff_dds, gene = "ENSG00000189221.9", intgroup = "condition",
+           returnData = TRUE) %>% # from purrr (tidyverse) to return a df to pipe
+  ggplot(aes(x = condition, y = count)) +
+  geom_boxplot() +
+  scale_y_log10()
+```
+
+
+### MA plot
+
+MA plots are a type of scatterplot used to visualize gene expression data. It has log fold change (M) on y-axis and log of the mean of normalized expression counts of the two treatments (A) on x-axis. Genes with no significant differences between the conditions cluster near M = 0 and genes that have been upregulated or downregulated end up above and below the M = 0 line respectively. Blue values indicate significant log2fold changes at a p-value of 0.05.
+
+```{r}
+plotMA(diff_results, ylim = c(-2,2))
+```
+
+### Volcano plot
+
+An alternative plot is a volcano plot. Volcano plots show statistical significance on the y-axis (-log10) versus the logfold magnitude of change along the x-axis. The most up-regulated genes are towards the right, and the most down-regulated genes are towards the left. The most statistically significantly differentially expressed genes are towards the top.
+
+The package `EnhancedVolcano` allows us to create a volcano plot with several modifications. Points will be coloured red if they have a p-value of less than the pCutoff.
+
+```{r}
+library(EnhancedVolcano)
+EnhancedVolcano(
+  diff_results,
+  lab = rownames(diff_results),
+  x = "log2FoldChange",
+  y = "padj",
+  xlim = c(-10, 10),
+  title = "Condition-biased gene expression",
+  pCutoff = 10e-16, # horizontal line
+  FCcutoff = 1.5, # vertical lines
+  pointSize = 0.5,
+  labSize = 2.5,
+  col = c("black", "black", "black", "red3"),
+  colAlpha = 1
+)
+```
+
+We see that there are many genes showing difference in gene expression across the dexamethasone treatment in airway smooth muscle cells.
+
+**You can also create MA & volcano plots using the `ggplot2` package.**
+```{r}
+# change the deseq results into a tibble (i.e., a dataframe that tidyverse likes)
+diff_results_tibble <- as_tibble(diff_results)
+
+# add a boolean column that indicates whether or not the gene is significantly differentially expressed
+diff_results_tibble <- diff_results_tibble %>% mutate(sig = padj < 0.05)
+
+# MA
+diff_results_tibble %>%
+  ggplot(aes(baseMean, log2FoldChange, colour = sig)) +
+  geom_point() + scale_x_log10() + ggtitle("MA plot")
+
+# volcano
+diff_results_tibble %>%
+  ggplot(aes(log2FoldChange, -1*log10(pvalue), colour = sig)) +
+  geom_point() + ggtitle("Volcano plot")
+```
+
+### Heatmap
+
+Gene lists are helpful for looking at handfuls of data but when we're working with thousands of genes, we likely have hundreds of differentially expressed genes that cannot be interrogated one at a time. Humans are not the best at finding patterns in numbers and we again turn to data visualization, this time using heatmaps. 
+
+The package `pheatmap` (named for pretty heatmaps) creates simple and beautifully organized heatmaps. This package also works well with the format of gene expression data.
+
+```{r}
+# get top 50 differentially expressed genes
+results_ordered_50 <- head(results_ordered, 50)
+
+# filter these top 50 genes from original count dataset
+top_50 <- dds_clean[rownames(dds_clean) %in% rownames(results_ordered_50), ]
+# create df to colour by
+anno_colour <- data.frame(row.names = colnames(dds_clean),
+                          treatment = colData(dds_clean)$condition)
+
+# make heatmap
+library(pheatmap)
+pheatmap(assay(top_50),
+         scale = "row",
+         annotation_col = anno_colour,
+         cutree_cols = 2,
+         cutree_rows = 4)
+```
+
+The more red, the more large number, means a higher expression of that gene; the more blue, the more smaller a number (or the more negative number), indicates a lower expression of the gene.
+
+
+We can see that the top 50 differentially-expressed genes do separate between the treatment, where some genes are higher expressed and some are lower expressed in the dexamethasone treatment. The genes with similar expression may be linked.
+
+
+## Creating a DeSeq Dataset
+
+Use the following code to download the `parathyroidSE` package. This package provides RangedSummarizedExperiment objects of read counts in genes and exonic parts for paired-end RNA-Seq data from experiments on primary cultures of parathyroid tumors.
+
+The sequencing was performed on tumor cultures from 4 patients at 2 time points over 3 conditions (DPN, OHT and control).
+
+The data were presented in the article "Evidence of a Functional Estrogen Receptor in Parathyroid Adenomas" by Haglund F, Ma R, Huss M, Sulaiman L, Lu M, Nilsson IL, Hoog A, Juhlin CC, Hartman J, Larsson C, J Clin Endocrinol Metab. jc.2012-2484, Epub 2012 Sep 28, PMID: 23024189. The raw sequencing data provided by NCBI Gene Expression Omnibus is under accession number GSE37211.
+
+```{r}
+# BiocManager::install("parathyroidSE")
+library("parathyroidSE")
+
+data("parathyroidGenesSE")
+```
+
+Before getting into the analyses, sometimes you need to first build the object. Currently, the count data can be accessed using the function `assay()`. However, you may notice that sample information is not included.
+
+```{r}
+# assay(parathyroidGenesSE)
+```
+
+Grab our count data and sample data, and join these together!
+
+```{r}
+# save count data into object
+para <- assay(parathyroidGenesSE)
+
+# save sample data into object
+sample <- colData(parathyroidGenesSE)
+
+# get names of samples using `run` column
+colData(parathyroidGenesSE)$run
+
+# save these sample names into columns
+colnames(para) <- colData(parathyroidGenesSE)$run
+
+# check all our objects: count matrix and sample data
+# para
+# sample
+```
+
+Now we can construct our DESeq object. We will specify a function that tests for the effect of treatment while controlling for the patient.
+
+```{r}
+para_object <- DESeqDataSetFromMatrix(
+  countData = para,
+  colData = sample,
+  design = ~ patient + treatment
+)
+```
+
+You will likely need to create your own DESeq object after being given count data and sample data! Sometimes, your data is not complete or ready for analysis.
+
+Finally, let's subset from the full dataset only data from after 48 hours of treatment.
+
+```{r}
+para_object_subset <- para_object[ , para_object$time == "48h" ]
+```
+
+```{r}
+# check
+para_object_subset
+```
+
+
+```{r}
+# check again!
+colData(para_object_subset)
+```
+
+## Practice Problems
+
+Use the same `para_object_subset` object we just created.
+
+1. How many feature genes and samples are in this object?
+```{r}
+# str(para_object_subset)
+dim(assay(para_object_subset)) # 63193 genes on 14 samples
+```
+
+
+2. Filter out the genes that contain 2 or less count data. How many feature genes are left?
+
+```{r}
+para_clean <- para_object_subset[rowSums(counts(para_object_subset)) > 2, ]
+
+dim(assay(para_clean)) # 26222
+```
+
+> Answer: 63193 genes of 14 samples originally. After cleaning, 26222 genes are left.
+
+3. Run the differential expression function to fit this object using generalized linear models, and save the output as an object.
+```{r}
+diff_para <- DESeq(para_clean)
+```

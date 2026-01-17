@@ -1,0 +1,2 @@
+https://posit.cloud/learn/recipes
+https://r4ds.had.co.nz/index.html

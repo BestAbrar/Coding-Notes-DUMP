@@ -1,0 +1,367 @@
+---
+title: "Week 1 Module 1 - Introduction to R"
+
+output: pdf_document
+---
+
+## For learners
+
+Hi everyone! Welcome to the first class
+
+Teaching coding can be challenging. So, here are some tips and built-in checkpoints that I have implemented to give everyone as smooth of an experience as possible.
+
+* After every section (at least every other code chunk), I will stop and check in with you all and make sure your code is running properly. If I have not checked in, please raise your hand and I will remember to check in
+* If, at any point, your code is giving you an error message, please attempt to continue with the code-along lecture. I will check in with you immediately after finishing my thought or after the active code chunk is run (max ~2 minutes; please be patient!).
+  * If a lot of students have the same error, I will take more time to debug.
+  * However, it is most likely a typo (e.g., wrong spelling, forgot a comma, forgot a closing bracket, etc.). Part of coding is recognizing the errors in your code! As you are waiting for me to come to you, please make sure that you are typing the code completely and error-free. And, chances are I will have answered your question or found a solution to the issue when I'm done explaining each small section!
+  * If the current code is not necessary to run the code afterwards, I will verbalize that; I can help you debug after the lesson is over.
+* After giving you time to complete the in-class exercises, I will check-in to see if you are done or if you need more time.
+
+If any of these checkpoints are not working for you, please let me know and we can modify :)
+
+## Introduction to R
+
+Welcome to RStudio!
+
+### Working with computers
+
+Before we get into more practical matters, we want to provide a brief
+background to the idea of working with computers. Essentially, computer
+work is about humans communicating with a computer by modulating flows
+of current in the hardware in order to get the computer to carry out
+advanced calculations that we are unable to efficiently compute
+ourselves. Early examples of human computer communication were quite
+primitive and included physically disconnecting a wire and connecting it
+again in a different spot. Luckily, we are not doing this anymore;
+instead we have programs with Graphical User Interface with menus and
+buttons that enable more efficient human to computer communication.
+
+### Graphical user interfaces vs. text based user interfaces
+
+An example of such a program that I think many of you are familiar with
+is spreadsheet software such as Excel. 
+
+Spreadsheet software is great for viewing and entering small data sets
+and creating simple visualizations fast. However, it can be tricky to
+design publication-ready figures, create automatic reproducible analysis
+workflows, perform advanced calculations, and reliably clean data sets.
+Even when using a spreadsheet program to record data, it is often
+beneficial to have some some basic programming skills to facilitate the
+analyses of those data.
+
+Typing Commands instead of searching for them in menus is a
+more efficient approach to communicate with the computer and a powerful
+way of doing data analysis.
+
+### In RStudio
+
+RStudio includes the R console, but also many other convenient
+functionalities, which makes it easier to get started and to work with
+R. When you launch RStudio, you will see four panels. Starting at the
+top left and going clockwise, these panels are:
+
+-   The text editor panel. This is where we can write scripts, i.e.
+    putting several commands of code together and saving them as a text
+    document so that they are accessible for later and so that we can
+    execute them all at once by running the script instead of typing
+    them in one by one.
+-   The environment panel, which shows us all the files and objects we
+    currently loaded into R.
+-   The files-plots-help panel. This panel shows the files in the
+    current directory (the folder we are working out of), any plots we
+    make later, and also documentation for various packages and
+    functions. Here, the documentation is formatted in a way that is easier to      read
+    and also provides links to the related sections.
+-   The console is another space we can input code, only now the code is
+    executed immediately and doesn't get saved at the end.
+
+To change the appearance of your RStudio, navigate to `Tools > Global Options > Appearance`. You can change the the font and size, and the editor theme. The default is "Textmate", but if you like dark mode, I recommend "Tomorrow Night Bright". You can also change how your panels are organized. I like to have my Console and History below my Source, and that way I can see my working environment next to my code. That way, I know if an error I am getting is because I am missing an object or I renamed something oddly. Let's change that now. I playing around with the appearance if you prefer a different layout or colour scheme. Do makes you the most productive!
+
+Another very useful thing with RStudio is that you have access to some
+excellent cheat sheets in PDF format straight from the menu:
+`Help -> Cheatsheets`!    
+
+In the RStudio interface, we will be writing code in a format called the
+_____________.
+
+In RStudio, you will find two types of areas.
+
+This current area is for ________ 
+
+Some common keyboard shortcuts that may be useful:
+
+* insert a new code cell (or press the green c with a + in the console toolbar)
+* run only the line your cursor is on
+* run all lines in the cell (or press the green play button)
+
+I encourage you to take advantage of this space to take notes throughout
+the lessons, feel free to add/edit any of the text in this document!
+Markdown text will not affect how the code is run.
+
+The second area is called ___________
+These are my notes
+
+Code chunks can be added using:
+Mac: command + option + i
+Windows: control + alt + i
+
+```{r}
+x <- 5 # code
+x*2
+```
+
+x <- 5 this area is notes
+
+The <- is used to assign value in objects. While a single equal
+sign can work as well, it is not good coding practice for R and should
+be saved for specifying parameters within functions (we'll get back to
+this)
+
+### Exercise
+Try editing the code above: multiply the value of x by 2.
+
+
+
+Within code cells, you can also add comments by #.
+
+
+To comment out multiple lines, use Ctrl+Shift+C
+
+
+### Saving data and generating reports
+
+To save our notes, code, and graphs, all we have to do is to save the R
+Notebook file, and then we can open it in RStudio next time again.
+However, if we want someone else to look at this, we can't always just
+send them the R Notebook file, because they might not have RStudio
+installed. Another great feature of R Notebooks is that it is really
+easy to export them to HTML, MS word, or PDF documents with figures and
+professional typesetting. There are actually many academic papers that
+are written entirely in this format and it is great for assignments and
+reports, for instance, you might use this for some of your progress
+updates to my supervisor. Since R Notebook files convert to HTML, it is
+also easy to publish simple good-looking websites in it, so example,
+[this one](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/), where
+you can see the code chunks embedded nicely within the text.
+
+Let's try to create a document in R.
+
+First, let's set up the yaml-block. This is found at the top of your
+document, and it is where you specify the title of your document, what
+kind of output you want, and a few other things such as author list and
+date.
+
+
+## Writing Code
+
+Let's write our first script!
+
+```{r}
+dozen<-12
+```
+
+### General syntax
+
+Multiple values can be stored into an object using the function `c()`
+for combine or concatenate
+
+```{r}
+goodjob<-c("high",5)
+print(goodjob)
+```
+
+Functions act on objects and can have additional parameters within the
+round brackets to specify how the command is carried out
+
+```{r}
+
+```
+
+All functions have default parameters that you can access using the help
+panel (same area as the "Files" and "Plots" panel) or using a `?` before
+the function name
+
+```{r}
+
+```
+
+### Exercise
+
+Running the following lines of code will produce an error. Edit the code
+in the code chunk to correct the error.
+
+```{r}
+times_three <- c(1, 3, 9, 27)
+```
+
+```{r}
+
+```
+
+## Operations of objects
+
+Many researchers are motivated to move their workflows into programming
+languages to scale up the analysis.
+
+Values that are stored in objects can all be acted on all at once
+together ______
+
+```{r}
+
+```
+
+
+
+## Installing packages from CRAN
+
+Let's revisit functions and packages.
+
+Functions are Packages
+
+R includes many pre-installed functions ______
+
+Most general use packages are hosted on the CRAN network. Another
+package repository you will encounter later specifically for biological
+applications is called Bioconductor. To download and install a package
+from CRAN, we will use another aptly named packaged called
+`install.packages()`
+
+```{r}
+
+```
+
+Once you have it installed, you can "open" them. You need to activate
+the library every new session of R. ______
+
+For this tidyverse package, you will likely see some warning messages -- ______
+
+
+```{r}
+library(tidyverse)
+```
+
+## Importing data
+
+Rather than entering you data manually, you are more likely to read in
+data from an external source such as an output file from a machine or
+data stored in an Excel table. R is pretty flexible with the files that
+it can accept, but there are differences to how it is read in.
+
+The recommended format is a `______` file. 
+
+Other common file formats are ______
+
+In this module and the next, we will be working with a dataset measuring
+categorical and integral characteristics of abalone gathered in
+Australia. The following information about the data is considered the
+metadata
+
+**Source:**
+
+Data comes from an original (non-machine-learning) study: Warwick J
+Nash, Tracy L Sellers, Simon R Talbot, Andrew J Cawthorn and Wes B Ford
+(1994) "The Population Biology of Abalone (*Haliotis* species) in
+Tasmania. I. Blacklip Abalone (*H. rubra*) from the North Coast and
+Islands of Bass Strait", Sea Fisheries Division, Technical Report No. 48
+(ISSN 1034-3288) <https://archive.ics.uci.edu/ml/datasets/abalone>
+
+**Data Set Information:**
+
+Predicting the age of abalone from physical measurements. The age of
+abalone is determined by cutting the shell through the cone, staining
+it, and counting the number of rings through a microscope -- a boring
+and time-consuming task. Other measurements, which are easier to obtain,
+are used to predict the age. Further information, such as weather
+patterns and location (hence food availability) may be required to solve
+the problem.
+
+**Attribute Information:**
+
+Given is the attribute name, attribute type, the measurement unit and a
+brief description. The number of rings is the value to predict: either
+as a continuous value or as a classification problem.
+
+*Name / Data Type / Measurement Unit / Description*
+
+-   Sex / nominal / -- / M, F, and I (infant)
+-   Length / continuous / mm / Longest shell measurement
+-   Diameter / continuous / mm / perpendicular to length
+-   Height / continuous / mm / with meat in shell
+-   Whole weight / continuous / grams / whole abalone
+-   Shucked weight / continuous / grams / weight of meat
+-   Viscera weight / continuous / grams / gut weight (after bleeding)
+-   Shell weight / continuous / grams / after being dried
+-   Rings / integer / -- / +1.5 gives the age in years
+
+As this is a csv file, we will be using the aptly named function
+`_____` to import the file into R
+
+
+```{r}
+
+```
+
+
+We'll do a quick test to make sure that everyone is set up and ready to
+go. By the end of the next module, you'll be able to understand each piece of
+the code and build it yourself!
+
+```{r}
+library(ggplot2)
+
+ggplot(data = abalone,
+       mapping = aes(x = Length, y = Whole.weight, col = Sex)) +
+  geom_point(alpha = 0.3)
+```
+
+
+
+## Practice Problems
+
+
+1.  The following code saves the average monthly temperature highs
+in Toronto starting in January into an object. Identify the object,
+function, and function parameter(s). What class will this object be?
+
+```{r}
+averageTorontoHigh <- c(0, 0, 5, 12, 19, 24, 27, 26, 23, 15, 9, 3)
+```
+
+> Answer: Object-> averageTorontoHigh
+>         Class -> Numeric
+>         Parameters -> (0, 0, 5, 12, 19, 24, 27, 26, 23, 15, 9, 3)
+
+
+
+2.  Calculate the mean annual high temperature in Toronto. (Hint: what is the function to find the mean of an object?)
+
+```{r}
+mean(averageTorontoHigh)
+```
+
+3.  Windsor's monthly temperature highs are approximately 2 degrees
+higher than Toronto. Create a new object called `averageWindsorHigh`
+to store twelve values of monthly temperature high values based on
+the data stored in the `averageTorontoHigh` object. Check your work
+by printing out the values in the object
+
+*Hint:* Remember you can do mathematical operations on objects.
+*Hint:* Error messages are a normal process of coding and can be especially
+frustrating when you're learning a new language. Don't worry! Every
+coder (even those who have been coding for decades!) encounters error
+messages when they are writing code. Keep at it!
+
+```{r}
+averageTorontoHigh <- c(0, 0, 5, 12, 19, 24, 27, 26, 23, 15, 9, 3)
+averageWindsorHigh = averageTorontoHigh+2
+print(averageWindsorHigh)
+```
+
+4.  When checking your work for the previous question, you may have
+encountered error messages similar to the one listed below:
+
+> Error: object " averagewindsorhigh\` not found
+
+Describe two possible reasons that this error message was triggered.
+
+>typo in object name 'averagewindsorhigh' instead of averageWindsorHigh

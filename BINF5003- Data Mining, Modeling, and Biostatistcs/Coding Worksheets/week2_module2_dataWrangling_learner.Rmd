@@ -1,0 +1,606 @@
+---
+title: "Week 2 Module 2 - Data Wrangling (1/2)"
+author: ""
+date: ""
+output: pdf_document
+---
+
+## For learners
+
+Hi everyone! Welcome to the first class
+
+Teaching coding can be challenging. So, here are some tips and built-in checkpoints that I have implemented to give everyone as smooth of an experience as possible.
+
+* After every section (at least every other code chunk), I will stop and check in with you all and make sure your code is running properly. If I have not checked in, please raise your hand and I will remember to check in
+* If, at any point, your code is giving you an error message, please attempt to continue with the code-along lecture. I will check in with you immediately after finishing my thought or after the active code chunk is run (max ~2 minutes; please be patient!).
+  * If a lot of students have the same error, I will take more time to debug.
+  * However, it is most likely a typo (e.g., wrong spelling, forgot a comma, forgot a closing bracket, etc.). Part of coding is recognizing the errors in your code! As you are waiting for me to come to you, please make sure that you are typing the code completely and error-free. And, chances are I will have answered your question or found a solution to the issue when I'm done explaining each small section!
+  * If the current code is not necessary to run the code afterwards, I will verbalize that; I can help you debug after the lesson is over.
+* After giving you time to complete the in-class exercises, I will check-in to see if you are done or if you need more time.
+
+If any of these checkpoints are not working for you, please let me know and we can modify :)
+
+## Introduction to R
+
+Welcome to RStudio!
+
+### Working with computers
+
+Before we get into more practical matters, we want to provide a brief
+background to the idea of working with computers. Essentially, computer
+work is about humans communicating with a computer by modulating flows
+of current in the hardware in order to get the computer to carry out
+advanced calculations that we are unable to efficiently compute
+ourselves. Early examples of human computer communication were quite
+primitive and included physically disconnecting a wire and connecting it
+again in a different spot. Luckily, we are not doing this anymore;
+instead we have programs with ____________________ with menus and
+buttons that enable more efficient human to computer communication.
+
+### Graphical user interfaces vs. text based user interfaces
+
+An example of such a program that I think many of you are familiar with
+is spreadsheet software such as __________________. 
+
+Spreadsheet software is great for viewing and entering small data sets
+and creating simple visualizations fast. However, it can be tricky to
+design publication-ready figures, create automatic reproducible analysis
+workflows, perform advanced calculations, and reliably clean data sets.
+Even when using a spreadsheet program to record data, it is often
+beneficial to have some some basic programming skills to facilitate the
+analyses of those data.
+
+________________________ instead of searching for them in menus is a
+more efficient approach to communicate with the computer and a powerful
+way of doing data analysis.
+
+### In RStudio
+
+RStudio includes the R console, but also many other convenient
+functionalities, which makes it easier to get started and to work with
+R. When you launch RStudio, you will see four panels. Starting at the
+top left and going clockwise, these panels are:
+
+-   The text editor panel: ____________ 
+-   The environment panel: ____________ 
+-   The files-plots-help panel: ____________ 
+-   The console: ____________ 
+
+To change the appearance of your RStudio, navigate to `Tools > Global Options > Appearance`. You can change the the font and size, and the editor theme. The default is "Textmate", but if you like dark mode, I recommend "Tomorrow Night Bright". You can also change how your panels are organized. I like to have my Console and History below my Source, and that way I can see my working environment next to my code. That way, I know if an error I am getting is because I am missing an object or I renamed something oddly. Let's change that now. I playing around with the appearance if you prefer a different layout or colour scheme. Do makes you the most productive!
+
+Another very useful thing with RStudio is that you have access to some
+excellent cheat sheets in PDF format straight from the menu:
+`Help -> Cheatsheets`!    
+
+In the RStudio interface, we will be writing code in a format called the
+_____________.
+
+In RStudio, you will find two types of areas.
+
+This current area is for ________ 
+
+Some common keyboard shortcuts that may be useful:
+
+* insert a new code cell (or press the green c with a + in the console toolbar)
+* run only the line your cursor is on
+* run all lines in the cell (or press the green play button)
+
+I encourage you to take advantage of this space to take notes throughout
+the lessons, feel free to add/edit any of the text in this document!
+Markdown text will not affect how the code is run.
+
+
+```{r}
+x <- 123
+```
+
+
+The _______ is used to assign value in objects. While a single equal
+sign can work as well, it is not good coding practice for R and should
+be saved for specifying parameters within functions (we'll get back to
+this)
+
+### Exercise
+
+Try editing the code above: multiply the value of x by 2.
+
+Within code cells, you can also add comments by __________.
+
+
+To comment out multiple lines, use _________
+
+
+### Saving data and generating reports
+
+To save our notes, code, and graphs, all we have to do is to save the R
+Notebook file, and then we can open it in RStudio next time again.
+However, if we want someone else to look at this, we can't always just
+send them the R Notebook file, because they might not have RStudio
+installed. Another great feature of R Notebooks is that it is really
+easy to export them to HTML, MS word, or PDF documents with figures and
+professional typesetting. There are actually many academic papers that
+are written entirely in this format and it is great for assignments and
+reports, for instance, you might use this for some of your progress
+updates to my supervisor. Since R Notebook files convert to HTML, it is
+also easy to publish simple good-looking websites in it, so example,
+[this one](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/), where
+you can see the code chunks embedded nicely within the text.
+
+Let's try to create a document in R.
+
+First, let's set up the yaml-block. This is found at the top of your
+document, and it is where you specify the title of your document, what
+kind of output you want, and a few other things such as author list and
+date.
+
+
+## Review
+
+R is an object-oriented language and it can be operated on.
+
+
+```{r}
+# Save the value of 12 to an object called "dozen"
+```
+
+### Our first functions
+
+Multiple values can be stored into an object using the function `c()`
+for combine or concatenate
+
+```{r}
+
+```
+
+Functions act on objects and can have additional parameters within the
+round brackets to specify how the command is carried out
+
+```{r}
+
+```
+
+All functions have default parameters that you can access using the help
+panel (same area as the "Files" and "Plots" panel) or using a `?` before
+the function name
+
+```{r}
+
+```
+
+
+All functions have default parameters that you can access using the help panel (same area as the "Files" and "Plots" panel) or using a `?` before the function name. 
+
+```{r}
+
+```
+
+#### Exercise
+
+Running the following lines of code will produce an error. Edit the code
+in the code chunk to correct the error.
+
+```{r}
+#times_three <- 1, 3, 9, 27
+```
+
+```{r}
+times_three <- c(1, 3, 9, 27)
+```
+
+### Operations of objects
+
+Many researchers are motivated to move their workflows into programming
+languages to scale up the analysis.
+
+Values that are stored in objects can all be acted on all at once
+together
+
+```{r}
+more_numbers <- times_three*4
+more_numbers
+```
+
+
+### Installing packages from CRAN
+
+Let's revisit functions and packages.
+
+Functions are ______
+
+R includes many pre-installed functions ______
+
+Most general use packages are hosted on the CRAN network. Another
+package repository you will encounter later specifically for biological
+applications is called Bioconductor. To download and install a package
+from CRAN, we will use another aptly named packaged called
+`install.packages()`
+
+```{r}
+
+```
+
+Once you have it installed, you can "open" them. You need to activate
+the library every new session of R. ______
+
+For this tidyverse package, you will likely see some warning messages -- ______
+
+
+```{r}
+library(tidyverse)
+```
+
+
+### Practice Problems
+
+1.  The following code saves the average monthly temperature highs
+in Toronto starting in January into an object. Identify the object,
+function, and function parameter(s). What class will this object be?
+
+```{r}
+averageTorontoHigh <- c(0, 0, 5, 12, 19, 24, 27, 26, 23, 15, 9, 3)
+```
+
+> Answer:
+>
+
+
+
+2.  Calculate the mean annual high temperature in Toronto. (Hint: what is the function to find the mean of an object?)
+
+```{r}
+
+```
+
+3.  Windsor's monthly temperature highs are approximately 2 degrees
+higher than Toronto. Create a new object called `averageWindsorHigh`
+to store twelve values of monthly temperature high values based on
+the data stored in the `averageTorontoHigh` object. Check your work
+by printing out the values in the object
+
+*Hint:* Remember you can do mathematical operations on objects.
+*Hint:* Error messages are a normal process of coding and can be especially
+frustrating when you're learning a new language. Don't worry! Every
+coder (even those who have been coding for decades!) encounters error
+messages when they are writing code. Keep at it!
+
+```{r}
+
+```
+
+4.  When checking your work for the previous question, you may have
+encountered error messages similar to the one listed below:
+
+> Error: object " averagewindsorhigh\` not found
+
+Describe two possible reasons that this error message was triggered.
+
+
+
+
+## Getting started with data
+
+Data can be created *de novo* from within R or read in from an external object. Either way, there are a few broad categories of data types that you will encounter: 
+
+1. *Vectors* - _______ 
+2. *Data frames* - _______ 
+3. *Lists* - _______ 
+
+
+## Vectors
+
+Vectors can only hold one type of data within a single object. 
+
+```{r}
+# Numeric
+
+# Character
+
+# Logical
+
+```
+
+### Exercise 
+
+What happens when you try to store (A) numbers and words into one object? What about (B) numbers and logical statements into one object? Create two new objects to try this out. Print out the value in these objects and use the function `class()` to ask R what type of data is stored in these objects. 
+
+```{r}
+
+```
+
+### Exercise
+
+Why does the following line of code produce an error instead if evaluating equivalency? Re-write the meaning of the error message in your own words. 
+
+```{r}
+# 64 = 46
+```
+
+> Answer:
+> 
+
+
+## Data frames 
+
+
+
+```{r}
+
+```
+
+Dataframes are the most common way of storing information
+
+```{r}
+
+```
+
+### Exercise
+
+Refer to our vector `fruits`. Can we use square brackets `[]` to index our 1D vectors? 
+
+Hint: This exercise is challenging you to bring together two separate concepts: 1D vectors and indexing with square brackets. Explore different combinations to use together and I know it is easier said than done, but don't let the error messages get you down! Frame this as a problem solving exercise and the error messages as R trying to let you know what you should change in your next try. Error messages are a normal part of coding. 
+
+```{r}
+
+```
+
+## Importing data 
+
+Rather than entering you data manually, you are more likely to read in data from an external source such as an output file from a machine or data stored in an excel table.
+
+The recommended format is a `___` file.
+
+**Source:**
+
+Data comes from an original (non-machine-learning) study:
+Warwick J Nash, Tracy L Sellers, Simon R Talbot, Andrew J Cawthorn and Wes B Ford (1994)
+"The Population Biology of Abalone (_Haliotis_ species) in Tasmania. I. Blacklip Abalone (_H. rubra_) from the North Coast and Islands of Bass Strait",
+Sea Fisheries Division, Technical Report No. 48 (ISSN 1034-3288) 
+https://archive.ics.uci.edu/ml/datasets/abalone
+
+**Data Set Information:**
+
+Predicting the age of abalone from physical measurements. The age of abalone is determined by cutting the shell through the cone, staining it, and counting the number of rings through a microscope -- a boring and time-consuming task. Other measurements, which are easier to obtain, are used to predict the age. Further information, such as weather patterns and location (hence food availability) may be required to solve the problem.
+
+**Attribute Information:**
+
+Given is the attribute name, attribute type, the measurement unit and a brief description. The number of rings is the value to predict: either as a continuous value or as a classification problem.
+
+*Name / Data Type / Measurement Unit / Description*
+
+- Sex / nominal / -- / M, F, and I (infant)
+- Length / continuous / mm / Longest shell measurement
+- Diameter / continuous / mm / perpendicular to length
+- Height / continuous / mm / with meat in shell
+- Whole weight / continuous / grams / whole abalone
+- Shucked weight / continuous / grams / weight of meat
+- Viscera weight / continuous / grams / gut weight (after bleeding)
+- Shell weight / continuous / grams / after being dried
+- Rings / integer / -- / +1.5 gives the age in years 
+
+### An aside on project-oriented workflows
+
+Best practice in data science includes organizing each data analysis into a project: a folder on your computer that holds all the files relevant to that particular piece of work.
+
+When you work in a project, you now have direct and independent access in that project. All file paths are _____, and it is easy to work with collaborators. Projects are reliable, keeps your notes/data/scripts tidy, and is the convention across data science fields.
+
+The RStudio IDE has a notion of a (capital “P”) Project, which is a very effective implementation of the (small “p”) projects described above. Each folder can be designated as a Project.
+
+So, let's make a project for this course:
+- top right: make a new project
+- link it to your existing directory for this course
+- now you have a .Rproj file - opening this takes you right back to where you left off!
+
+
+### Let's check our data
+
+Now we can easily access our files from the root project directory using the `here()` package
+
+As this is a csv file, we will be using the aptly named function `_____` to import the file into R. 
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+If you would like to pop out a view that may be more familiar to Excel, _____
+
+```{r}
+
+```
+
+It is almost never useful to print out the whole table because humans are not good at inspecting numbers. Built in summary statistics are helpful for us to get an overview of the data. 
+
+```{r}
+
+```
+
+Notice for the sex of the observations, the summary is returning that there are characters in this column but not much else.
+
+The string `$` operator is used to _____
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+Now that we understand factors, let's overwrite the column in the original dataset. **Remember, there is no undo button in programming. Double check your work before you overwrite objects**
+
+```{r}
+
+```
+
+### Exercise 
+
+Explore the abalone dataset. 
+
+A. Confirm that abalone number 65, 85, and 99 are male 
+B. Of the three abalone identified in the previous step, determine which abalone has the largest diameter.
+C. Use the "mean()" function to determine the mean abalone diameter of all observations. Next, determine which of the three abalone(s) are larger than average. 
+
+Remember: error messages are normal and part of the troubleshooting process. This is R's way of communicating where to double check - not an indication of your ability to code! You're doing great! 
+
+```{r}
+# Hints to get you started:
+# Square brackets are used to access position: object[row,columns]
+# The function c() for combine or concatenate is needed when there are multiple inputs
+# Numeric values should not be enclosed in quotations, but character values require quotations. 
+```
+
+**insert code chunk here to write your answer**
+ctrl/cmd + option + i
+
+
+Good job writing your first investigative pieces of code! Woo hoo! 
+
+## Revisiting the R environment
+
+Let's take a moment to revisit the Rstudio interface and the environment panel. 
+
+We've worked with a few objects at this point. The environment panel can give us an overview of the objects in the environment and allow us to preview data frames. 
+
+If you would like to remove any objects ____
+
+```{r}
+
+```
+
+The "object not found" error is a common one. In case you get this, you can refer to this Environment tab to double check if it exists. Some common reasons this error message is triggered include: 
+
+- 
+-
+
+## Data Wrangling 
+
+Most of the raw data we work with starts off as what the computer considers messy. Perhaps there are some observations with incomplete data (columns are missing data) or there are multiple observations stored in each row (imagine a table with countries in the rows, and a column for life expectancy in 1990 in one column and life expectancy in 2010 in the adjacent column). 
+
+Data wrangling is the process of _______
+
+In this section, we are going to get comfortable subseting the data and re-shaping dataframes. We'll start by reminding ourselves how our dataset looks: 
+
+```{r}
+
+```
+
+If we wanted to take a look at the summary statistics independently for infant versus mature, we can create multiple objects by subseting the original one. 
+
+Remember square brackets are ______
+
+```{r}
+
+```
+
+
+We can select for multiple values as well. 
+
+```{r}
+
+```
+
+### Exercise 
+
+Create a new object called `abalone_small` with only abalone with `Whole.weight` less than 1. Include only the columns `Sex`, `Length`, `Diameter`, and `Whole.weight`. 
+
+You can do this in one line or multiple lines, whichever you are most comfortable with! Take your time and check your work along the way using the `summary()` function. 
+
+**insert code chunk**
+
+
+## Adding new columns of data 
+
+New columns can also be created if you wanted to add more information to the dataset 
+
+**insert code chunk**
+
+
+Remember that operations can be done on whole columns as well!! 
+
+**insert code chunk**
+
+## Exporting data 
+
+Remember that our `abalone` object was created from the `abalone.csv` file that we have in the same folder. When we used the `read.csv()` function to import the data into R, the original data table did not change and all of the reshaping and calculations did not affect the original data. This is good - we generally do not want to modify the raw data. When we are running the code again, we want to start from the same place. 
+
+However, at the end of an analysis, you may want to export some data table, statistics, or images to include in a report or thesis. 
+
+Complementary to how we read in the data, we can use a related function called `______` to write the values stored in an object into a new .csv file.
+
+If you save to the same file name as the one you imported, you will irreversibly overwrite the original raw data. 
+
+```{r}
+write.csv(abalone, "abalone_week2edits.csv")
+```
+
+If you check the folder where this notebook is kept, the file name will be there 
+
+## Documenting session info
+
+As an overview of our environment, we can also use the `sessionInfo()` command. This is a good practice to have at the end of your code to document which packages you used and what version they were. 
+
+**insert code chunk**
+
+Notice that we have some base packages active even though we did not explicitly call for them. 
+
+
+
+
+
+## Practice Problems
+
+We will be working with a dataset quantifying water quality that is publicly available at: https://www.kaggle.com/datasets/adityakadiwal/water-potability?resource=download
+
+
+Here is some description of the data: 
+
+Access to safe drinking-water is essential to health, a basic human right and a component of effective policy for health protection. This is important as a health and development issue at a national, regional and local level. In some regions, it has been shown that investments in water supply and sanitation can yield a net economic benefit, since the reductions in adverse health effects and health care costs outweigh the costs of undertaking the interventions.
+
+The water_potability.csv file contains water quality metrics for 3276 different water bodies. More information about each of the columns can be found in the link above
+
+pH value
+Hardness
+Solids (Total dissolved solids - TDS)
+Chloramines
+Sulfate
+Conductivity
+Organic_carbon
+Trihalomethanes
+Turbidity
+Potability
+
+Insert a code chunk underneath each step to carry out the instruction. 
+
+1. Read in the "water_potability.csv" data into an object called `data`. Check the object you created by printing out the first 10 rows and applying the summary function.
+**insert code chunk**
+
+2. Notice that the pH column contains a couple hundred NA values. NA are special values in R (like how "pi" is preset to a value of 3.14159...) to indicate that there is missing data, or it is not available. There are also some NAs in the Sulfate and Trihalomethanes columns. 
+
+Create new object called water_df that only contains complete observations. 
+
+Hint: take a look at the function called `na.omit()`. In most cases, someone's already done what you've wanted to do so there may already be code or functions that you can adapt and use!
+
+**insert code chunk**
+
+3. The Potability column has two possible values: 1 means Potable and 0 means Not potable.
+
+It is read in by default as a character vector. Convert this column to a factor. 
+
+
+4. WHO has recommended maximum permissible limit of pH in drinking water from 6.5 to 8.5. 
+
+Create a new column within the `water_df` object called `ph_category` in which: 
+
+- Observations with a pH less than 6.5 have a value of `acidic` in the `ph_category`
+- Observations with a pH between 6.5 - 8.5 have a value of `permissible` in the `ph_category`
+- Observations with a pH greater than 8.5 have a value of `basic` in the `ph_category`
+
+There are multiple ways to do this, give it a go! You can't break the object - if you ever feel like you need a reset, you can always repeat step 1 to read in the object again. 
+
+Use `table()` or `summary()` to check the values in the `ph_category` column
+
+

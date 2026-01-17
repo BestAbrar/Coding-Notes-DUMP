@@ -1,0 +1,402 @@
+---
+title: "Week 10 Module 6 - Dimension Reductionality and Clustering (2/2)"
+author: ""
+date: ""
+output:
+  pdf_document: default
+  html_document: default
+---
+
+## Set up 
+
+Jumping back into dimension reduction! We'll load in our libraries and dataset again. 
+
+```{r}
+library(here)
+library(GEOquery)
+library(oligo)
+library(limma)
+library(hgu133a.db)
+library(Biobase)
+library(ggplot2)
+library(tidyverse)
+library(cowplot)
+library(ggfortify)
+library(pheatmap)
+```
+
+## Clinical data 
+
+Principal component analysis is helpful when the data has a lot of dimensions, and it is not limited to genetic data! 
+
+Here's a relatively smaller clinical dataset we can work through.
+```{r}
+mental_health <- read.csv(here("DB_mini.csv"), header = TRUE)
+names(mental_health)
+```
+
+The data is from this publication in Italy finding associations between character strengths, psychological distress, and self-efficacy one month after lockdown began. 
+
+The original publication can be found here: https://link.springer.com/article/10.1007/s10902-020-00321-w#Abs1
+
+The data from the publication has been subsetted for us to use in this analysis. 
+
+Each participant responded to many questionnaires and were awarded a score on Openness, Restraint, Transcendence, and Interpersonal skill. We also have the results from their Depression, Anxiety, and Stress Scales-21 (DASS) and General Health Questionnaire-12 (GHQ-12).
+
+```{r}
+# remove participant number, not a true phenotype
+# then run PCA
+pca_mh <- prcomp(mental_health[ , 2:9])
+
+# RQ: How do variables of mental health (openness, restraint, transcendence, and interpersonal skill) influence patient's depression, anxiety and stress after COVID?
+
+# not good RQ
+# RQ: How is a patients' mental health affected? 
+# RQ: What conclusions can we draw from mental health outcomes?
+
+# visualize
+# pca$x provides original dataset on new components
+ggplot(data = pca_mh$x, aes(x = PC1, y = PC2)) + 
+  geom_point(aes(color = mental_health$Age))
+```
+
+### Exercise 
+
+Write a loop to create a plot for each of the different phenotypes that were collected. What tends do you see in the data? 
+
+Hint: Consider the different ways that you can specify a column in a dataset. Which one will let you specify a column name from a value stored in an object? 
+
+```{r}
+
+colour_by_phenotype <- function(pheno){
+ggplot(data = pca_mh$x, aes(x = PC1, y = PC2)) + 
+  geom_point(aes(colour = mental_health[pheno]))
+}
+for (col in names(mental_health)){
+  colour_by_phenotype(col)
+}
+```
+
+
+## Loadings
+
+Finally, let's use autoplot to also plot the loadings along with our original data.
+
+```{r}
+pca_mh$rotation[ , 1:2]
+
+autoplot(pca_mh, data = mental_health,
+         loadings = TRUE,
+         loadings.label = TRUE,
+         alpha = 0.5,
+         size = 0.5,
+         loadings.colour = "lightblue",
+         loadings.label.size = 3,
+         colour = "Age")
+```
+
+### Exercise
+
+We're returning to last week's microarray dataset with an identifier "GSE13837". Samples of synovial membrane systems were collected from patients with rheumatoid arthritis to investigate molecular signalling systems.
+
+More information about the dataset can be found on this repository page: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE13837.
+
+Here's some code to read it in:
+
+```{r}
+gset_ra <- getGEO("GSE13837", GSEMatrix = TRUE, getGPL = TRUE)
+
+# only run this once
+gset_ra <- gset_ra[[1]]
+
+gset_ra # 54675 genes, 60 patients
+```
+
+1. Run a PCA analysis and determine how many PC are required to explain 70% of the variance in the data. 
+
+```{r}
+# transpose dataset so genes that are being reduced
+# are along the columns, and not rows
+dim(na.omit(exprs(gset_ra))) # 54675 genes, 60 patients
+
+# na.omit() remove rows (in this case, removes genes)
+# i.e., 1 patient may have NA expression for 1 gene,
+# but gene expression data will be removed for all patients
+# we don't have any NAs, so don't need na.omit()
+# now, run PCA
+pca_ra <- prcomp(t(exprs(gset_ra)))
+```
+
+```{r}
+# variance = sd ^ 2
+variance_ra <- pca_ra$sdev^2
+
+# proportion variance
+variance_ra / sum(variance_ra) -> prop_ra
+
+# plot variance in a scree plot
+plot(prop_ra,
+     xlab = "Principal Components",
+     ylab = "Proportion of Variance Explained",
+     ylim = c(0, 1))
+
+# cumulative sum of proportion of variance for components
+which(cumsum(prop_ra) >= 0.7)
+```
+
+2. Create a custom function to overlay a point plot comparing PC1 and PC2 that accepts the name of a column in the phenotype data as the parameter for colour.
+
+```{r}
+colnames(pData(gset_ra))
+
+colour_by_phenotype <- function(pheno){
+  ggplot(data = pca_ra$x,
+       aes(x = PC1, y = PC2,
+           colour = pData(gset_ra)[ , pheno])) +
+  geom_point()
+}
+
+colour_by_phenotype("characteristics_ch1")
+colour_by_phenotype("platform_id")
+colour_by_phenotype("submission_date")
+```
+
+## Dataset 
+
+There is more information than needed here, we can take a look at data in specific columns using table. This will give us a better idea of which parameters we want to apply to our PCA visualization.
+
+```{r}
+colnames(pData(gset_ra))
+
+# equal number of patients with OA and RA
+table(gset_ra$characteristics_ch1.2)
+
+# however, unequal number of sexes of patients versus OA and RA
+table(gset_ra$characteristics_ch1.2,
+      gset_ra$characteristics_ch1)
+
+# also, batches across different dates
+table(gset_ra$submission_date)
+```
+
+## Generate PCA 
+```{r}
+pca_ra <- prcomp(t(exprs(gset_ra)))
+
+ggplot(data = pca_ra$x, aes(x = PC1, y = PC2)) +
+  geom_point()
+```
+
+Recolouring on the three characteristics helps us solve what sources of variation are being represented by each principal component. Keep in mind that PC1 will represent the most variation, and next PC2. For this reason, we tend to analyze PC1 x PC2 first and rarely go past ~PC5. 
+
+```{r}
+# colour by age
+ggplot(data = pca_ra$x, aes(x = PC1, y = PC2,
+                            colour = gset_ra$characteristics_ch1.1)) +
+  geom_point()
+
+# colour by sex
+ggplot(data = pca_ra$x, aes(x = PC1, y = PC2,
+                            colour = gset_ra$characteristics_ch1)) +
+  geom_point()
+
+# colour by treatment
+ggplot(data = pca_ra$x, aes(x = PC1, y = PC2,
+                            colour = gset_ra$characteristics_ch1.2)) +
+  geom_point()
+```
+
+The data seems to be separating on each of these characteristics, interesting! How can we tell which one is the primary driver? Let's look for overlap between the parameters.
+
+It is concerning that we have some patchy data. For example, all male samples of OA, none of RA. When we find unique signatures of RA patients, it will be impossible to separate whether it is due to being diseased or due to differences in sex. As well, there's also uneven sampling in the age categories. It is *always* best to make sure representation is balanced in the dataset and during data collection. 
+
+## Batch correction
+```{r}
+table(gset_ra$submission_date)
+```
+
+Note the data was also submitted on three different dates. This is a strong indication that there were batches -- that the data was not all collected on the same day. It is always best to do data collection in parallel when possible to reduce technical variation. For example, the RNA extraction kit, calibration of machine, and manufacturing lot of the microarray chip may have changed between dates. 
+
+```{r}
+# save uncorrected/original gene expression into object
+ra_uncorrected <- exprs(gset_ra)
+
+# now, perform batch correction
+ra_bc <- removeBatchEffect(gset_ra, batch = gset_ra$submission_date)
+```
+
+### Exercise 
+
+With the batch corrected gset, re-apply the PCA and visualize the PCA. Has the batch correction had any meaningful effect? Does this impact your analysis? 
+
+Hint: We extracted the expression set for batch correction so accessing data to generate the PCA and visualization will be a little bit different from above. In other words, copy-and-pasting will require some modifications to work 
+```{r}
+# generate pca from bc expression
+pca_ra_bc <- prcomp(t(ra_bc))
+
+# add colour for treatment
+ggplot(data = pca_ra_bc$x, # add enter between arguments
+       aes(x = PC1, y = PC2,
+           colour = gset_ra$characteristics_ch1.2)) +
+  geom_point()
+
+# add colour for sex
+ggplot(data = pca_ra_bc$x,
+       aes(x = PC1, y = PC2,
+           colour = gset_ra$characteristics_ch1)) +
+  geom_point()
+```
+
+While the clusters are less visually distinct, the data is actually in a better shape for analysis because the differences between data collection are removed. 
+
+Now, how do we know which genes are involved?
+
+## Differential gene expression 
+
+How are genes differentially expressed between patient groups? In order to communicate to R the contrast that we want to make, we will need to make an experimental design matrix. 
+
+The control vs experimental groups are specified in the `characteristics_ch1.2` channel.
+```{r}
+# ~0 to compare between groups
+# 0 or 1
+design_ra <- model.matrix(~0 + gset_ra$characteristics_ch1.2)
+
+# rename columns for readability
+colnames(design_ra) <- c("OA", "RA")
+head(design_ra)
+```
+
+With the samples defined, we need to set up the contrasts to make. Generally, we go with `experimental group` - `control group`.
+
+Because we need to write a formula, it is really important that the column names do not have spaces or special characters to make sure the contrast is applied correctly. 
+
+```{r}
+cont_matrix_ra <- makeContrasts(RA-OA, levels = design_ra)
+cont_matrix_ra
+```
+
+Features that are highly expressed in the experimental group will be in the positive and features that are more highly expressed in the control group will be annotated as negative. 
+
+We're ready to apply the contrast! 
+
+`lmFit` will computes coefficients, residual variances and standard errors. Then, `contrasts.fit` converts the coefficients and standard errors to reflect the contrasts rather than the original design matrix. Finally, `eBayes` computes t-statistics and p-values from the coefficients and standard errors. Run in this order!
+
+```{r}
+# fit linear model
+fit_ra <- lmFit(gset_ra, design_ra)
+# fit_ra
+
+# compute contrasts
+fit_cont_ra <- contrasts.fit(fit_ra, cont_matrix_ra)
+
+# compute statistics (p-values)
+fit_cont_ra <- eBayes(fit_cont_ra, 0.01) # alpha at 0.01
+# p < a == statistically significant
+
+class(fit_cont_ra)
+names(fit_cont_ra)
+```
+
+This is another complex data object that is unique to the `limma` package. There is a lot of data here, we will concentrate on the top variably expressed genes. First, let's look at a volcano plot that displays the statistical significance of the magnitude of change (fold change). It enables quick visual identification of genes with large fold changes that are also statistically significant. These may be the most biologically significant genes. In a volcano plot, the most upregulated genes are towards the right, the most downregulated genes are towards the left, and the most statistically significant genes are towards the top.
+
+The negative log of the p-values are used for the y-axis so that the smallest p-values (significant values) are at the top of the plot.
+```{r}
+volcanoplot(fit_cont_ra, highlight = 10,
+            cex = 0.1)
+```
+
+Looking at the top 25 genes, we can see how their expression is expressed in the experimental (RA) or control (OA) group.
+```{r}
+# adjust for multiple test
+# control false discovery rate
+# compare to DESeq, we used padj instead of pvalue
+top25_ra <- topTable(fit_cont_ra, number = 25, adjust.method = "fdr")
+
+colnames(top25_ra)
+head(top25_ra)
+
+top25_ra[ , c(11:12, 17, 20:22)]
+```
+
+Look at the log-fold change (logFC) to see differences between cases and controls. Usually, the transformation is log at base 2, so the interpretation is: a log(FC) of 1 means twice as expressed.
+
+Refer back to the contrast matrix when interpreting the logFC to determine if the gene is significantly expressed in the control or experimental group. 
+```{r}
+cont_matrix_ra
+```
+
+If the logFC of a gene is positive, then it's significantly expressed in the experimental rheumatoid arthritis group.
+
+### Exercise 
+
+What happens if batch control is applied? Run a topTable analysis and compare if there are any overlaps in the the top 10 most highly expressed genes in original dataset and the batch corrected dataset.
+
+```{r}
+# fit LM given design matrix
+fit_ra_bc <- lmFit(ra_bc, design_ra)
+
+# compute contrasts
+fit_cont_ra_bc <- contrasts.fit(fit_ra_bc, cont_matrix_ra)
+
+# compute statistics
+fit_cont_ra_bc <- eBayes(fit_cont_ra_bc, 0.01)
+
+# fit topTable()
+top10_ra <- topTable(fit_cont_ra,
+                     adjust.method = "fdr",
+                     number = 10)
+
+top10_ra_bc <- topTable(fit_cont_ra_bc,
+                        adjust.method = "fdr",
+                        number = 10)
+
+# column bind rownames(gene names) or original & batch-corrected topTable
+cbind("original" = rownames(top10_ra),
+      "batch-corrected" = rownames(top10_ra_bc))
+```
+
+Note: when you have batch effects in your data, and want to run a linear regression (e.g., `lmFit` function), it is best to include the batch effect as part of the linear model. The function `removeBatchEffect` is intended for use with clustering or PCA, not linear modelling. 
+
+## Heatmaps 
+
+And, we can produce heatmaps again.
+```{r}
+# check pvalue & differentially expressed value
+top25_ra$diff <- top25_ra$adj.P.Val < 0.01 & abs(top25_ra$logFC < 0.5)
+
+length(pData(gset_ra)$characteristics_ch1.2)
+length(pData(gset_ra)$submission_date)
+length(colnames(gset_ra))
+
+# dataframe to colour by
+anno_colour <- data.frame(pheno = pData(gset_ra)$characteristics_ch1.2,
+                          batch = pData(gset_ra)$submission_date,
+                          row.names = colnames(gset_ra))
+
+# index expression table using only top 25 genes
+gset_ra_25 <- gset_ra[rownames(gset_ra) %in% rownames(top25_ra), ]
+
+# heatmap
+pheatmap(gset_ra_25,
+         annotation_col = anno_colour,
+         scale = "row",
+         cutree_cols = 4)
+```
+
+Looking at the way the tree branches, it looks like there may by multiple subtypes of RA that are worth investigating further. The heatmap shows that the samples are separating largely by phenotype (osteoarthritis or rheumatoid arthritis). However, the two samples in the middle is of rheumatoid phenotype, but may be clustering by gene expression due to batch.
+
+### Exercise
+
+Create a heatmap using the batch-corrected gene expression values.
+```{r}
+gset_ra_bc_25 <- ra_bc[rownames(ra_bc) %in% rownames(top25_ra), ]
+
+pheatmap(gset_ra_bc_25,
+         annotation_col = anno_colour,
+         scale = "row",
+         cutree_cols = 4)
+```
+
+## Practice Problems? 
+
+None this week! Dedicate some more time towards working on your projects and upcoming presentation. 

@@ -1,0 +1,148 @@
+---
+title: "Week 0 - Downloading R"
+
+date: "Fall 2025"
+output:
+  pdf_document: default
+  word_document: default
+  html_document:
+    df_print: paged
+urlcolor: blue
+editor_options:
+  markdown:
+    wrap: 72
+---
+```{r, echo = FALSE}
+knitr::opts_chunk$set(fig.width=12, fig.height=8)
+```
+
+
+## Welcome to BINF 5003: Data Mining, Modeling, and Biostatistics!
+
+This course is a hands-on exploration of R and RStudio. If you have any
+issues preparing your computer, I want to resolve them in advance so
+that you can make the most of our time together. As you follow these
+instructions, don't worry if you don't understand exactly what is going
+on because we will go through it all again during the first tutorial.
+The purpose here is to ensure that your computer is set up and ready for
+action. If you can't complete these steps, I need to work with you
+before the workshop to get you ready.
+
+### Tech Requirements
+
+Before we start, you will require your own laptop computer, with the
+following minimum requirements: 1024×768 screen resolution, 1.5GHz CPU,
+2GB RAM, 10GB free disk space, recent versions of Windows, Mac OS X or
+Linux (most computers purchased in the past 3-4 years likely meet these
+requirements).
+
+Make sure you have a robust internet browser such as Firefox, Safari or
+Chrome (not Internet Explorer).
+
+Make sure you have a PDF viewer (e.g., Adobe Acrobat, Preview or
+similar), or that you can read PDF files in your Web browser.
+
+### Download R
+
+1. Download R, a free software environment for statistical computing and
+graphics from [CRAN](https://cloud.r-project.org/), the Comprehensive R
+Archive Network. I highly recommend you install a precompiled binary
+distribution for your operating system -- use the links up at the top of
+the CRAN page!
+
+Note: MacBook users with an Apple Silicon chip (e.g., M1 or M2) should
+install the "arm64" version of R, while MacBook users with an Intel chip
+should install the regular (64-bit) version of R. You can check your
+laptop's hardware specifications by clicking the Apple icon (top left
+corner) \> About This Mac and verifying whether the chip is Apple or
+Intel
+
+2. Install [RStudio's IDE](https://posit.co/download/rstudio-desktop/)
+(stands for integrated development environment), a powerful user
+interface for R. Click the link under "2: Install RStudio". RStudio
+comes with a text editor, so there is no immediate need to install a
+separate stand-alone editor.
+
+3. If R is already installed, ensure that the R version is at least 4.0 or
+higher. You can do this by opening RStudio, where you should see a
+multi-section window like below. We'll take a tour of the interface
+together. For now, locate the quadrant named "Console" as indicated by
+the red square in the image below.
+
+![RStudio startup view.](figures/rconsole.png){width=70%}
+
+4. Put your cursor at the start of the prompt indicated by the `>` symbol
+and where the red arrow is pointing. Type or copy `sessionInfo()` - make
+sure that only the I at the start of Info is capitalized and you are
+including the round brackets. Press enter to run this command and R
+should return an output to you. Then, double check your R version in the
+first line. Ensure that the R version is at least 4.0 or higher. If you
+have an older version of R like this image, you can re-install a more
+current version R (do not need to re-install RStudio).
+
+### TinyTex
+
+There is one package we have to install first before we can create PDF
+reports, which will be necessary for assignments and the project. Copy
+and paste into the console (where the `>` symbol is) the two lines of
+code below to install a package called `tinytex`.
+
+```{r eval = FALSE}
+install.packages('tinytex') 
+tinytex::install_tinytex()
+```
+
+### All packages
+
+Next, let's install all the packages that we will be using in the course
+(more on what packages are soon!). Follow the steps below.
+
+1.  First, we will be installing packages from the Comprehensive R
+    Archive Network (CRAN). To install these packages, you can copy the
+    code below and paste it into your console.
+
+```{r eval = FALSE}
+install.packages(c("tidyverse", "gridExtra", "cowplot", "datasauRus", "tidyselect"),
+                 dependencies = TRUE)
+```
+
+2.  Next, we'll be using packages hosted on a different repository.
+    Again, copy and paste the code into your console. These will take a
+    while to download and depend on your internet speed. Budget at least
+    30-60 mins. The installs will likely also require your input so keep
+    an eye on the console.
+
+```{r eval = FALSE}
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("GEOquery")
+BiocManager::install("oligo")
+BiocManager::install("limma")
+BiocManager::install("hgu133a.db")
+BiocManager::install("Biobase")
+```
+\newpage
+
+During installation, if you ever get the below message about updating loaded packages, select "No".
+
+![Click "No".](figures/restartr.png){width=25%}
+
+And if you get this message in your console "Do you want to install from
+sources the packages which need compilation? (Yes/no/cancel)", type
+"Yes" in the console.
+
+To check that these packages have been installed correctly, go to the
+bottom right pane and click the tab for "Packages". If you can search
+for and find the below packages, then they have been installed! They do
+not need to be checked off.
+
+Packages
+
+-   tidyverse
+-   gridExtra
+-   cowplot
+-   datasauRus
+-   tidyselect
+-   ggfortify
+-   BiocManager
